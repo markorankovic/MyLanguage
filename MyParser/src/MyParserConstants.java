@@ -31,9 +31,17 @@ public interface MyParserConstants {
   /** RegularExpression Id. */
   int EQ = 15;
   /** RegularExpression Id. */
-  int OBRACKET = 16;
+  int LESS = 16;
   /** RegularExpression Id. */
-  int CBRACKET = 17;
+  int GREATER = 17;
+  /** RegularExpression Id. */
+  int LESSOREQUAL = 18;
+  /** RegularExpression Id. */
+  int GREATEROREQUAL = 19;
+  /** RegularExpression Id. */
+  int OBRACKET = 20;
+  /** RegularExpression Id. */
+  int CBRACKET = 21;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -56,6 +64,10 @@ public interface MyParserConstants {
     "\"*\"",
     "\"/\"",
     "\"==\"",
+    "\"<\"",
+    "\" >\"",
+    "\"<=\"",
+    "\" >=\"",
     "\"(\"",
     "\")\"",
   };

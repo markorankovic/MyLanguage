@@ -9,7 +9,7 @@ public class MyParser {
 	public static void main(String[] args) {
 	  try {
 	    MyParser parser = new MyParser( System.in );
-	    parser.AddExpression();
+	    parser.UnaryExpression();
 	    System.out.println("Pass");
 	  } catch (Throwable e) {
 	    System.out.println("Fail");
@@ -39,6 +39,10 @@ TOKEN: {
 |   <MUL: "*">
 |   <DIV: "/">
 |	<EQ: "==">
+| <LESS: "<">
+| <GREATER: " >">
+| <LESSOREQUAL: "<=">
+| <GREATEROREQUAL: " >=">
 }
 
 TOKEN: {
@@ -56,5 +60,15 @@ void MUL(): {}{ <INTEGER> <MUL> <INTEGER> }
 void DIV(): {}{ <INTEGER> <DIV> <INTEGER> }
 void Equals(): {}{ <INTEGER> <EQ> <INTEGER> }
 void MathExpression(): {}{ AddExpression() }
-void AddExpression(): {} { <OBRACKET> Add() <CBRACKET> <ADD> <OBRACKET> Add() <CBRACKET> }
+void MultiplyExpression(): {}{ UnaryExpression() ((<MUL> | <DIV>) UnaryExpression())* }
+void AddExpression(): {} { MultiplyExpression() <ADD> MultiplyExpression() }
+void UnaryExpression(): {} { <OBRACKET> MathExpression() <CBRACKET> | <INTEGER> | <NAME> }
+void UnaryRelational(): { } { <INTEGER> | <NAME> }
+void RelationalLessExpression() : {} { UnaryRelational()  }
+
+
+
+
+
+
 
