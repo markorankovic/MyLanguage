@@ -1,0 +1,60 @@
+options {
+  STATIC = false;
+}
+
+PARSER_BEGIN(MyParser)
+
+public class MyParser {
+
+	public static void main(String[] args) {
+	  try {
+	    MyParser parser = new MyParser( System.in );
+	    parser.AddExpression();
+	    System.out.println("Pass");
+	  } catch (Throwable e) {
+	    System.out.println("Fail");
+	  }
+	}
+  
+}
+
+PARSER_END(MyParser)
+
+SKIP: {
+    " " | "\t" | "\r" | "\n" 
+}
+
+TOKEN: {
+  <STRING: "\"" (~["\"", "\\"] | "\\\"" | "\\\\")* "\"" >
+| <DIGIT: ["0"-"9"]>
+| <INTEGER: (["1"-"9"] (["0"-"9"])*) | "0">
+| <DEF: "def">
+| <NAME: (["a"-"z", "A"-"Z"])+>
+| <ASSIGNMENT: "=">
+}
+
+TOKEN: {
+  <ADD: "+">
+|   <SUB: "-">
+|   <MUL: "*">
+|   <DIV: "/">
+|	<EQ: "==">
+}
+
+TOKEN: {
+  <OBRACKET: "(">
+| <CBRACKET: ")">
+}
+
+void Start(): {}{ <NAME> }
+void Assignment(): {}{ <NAME> <ASSIGNMENT> <STRING> | <INTEGER> }
+void VariableDeclaration(): {}{ <DEF> <NAME> <ASSIGNMENT> (<STRING> | <INTEGER>) }
+
+void Add(): {}{ <INTEGER> <ADD> <INTEGER> }
+void Sub(): {}{ <INTEGER> <SUB> <INTEGER> }
+void MUL(): {}{ <INTEGER> <MUL> <INTEGER> }
+void DIV(): {}{ <INTEGER> <DIV> <INTEGER> }
+void Equals(): {}{ <INTEGER> <EQ> <INTEGER> }
+void MathExpression(): {}{ AddExpression() }
+void AddExpression(): {} { <OBRACKET> Add() <CBRACKET> <ADD> <OBRACKET> Add() <CBRACKET> }
+
