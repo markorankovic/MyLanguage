@@ -1,0 +1,56 @@
+<identifier>
+First character is a letter, subsequent characters may be numbers
+
+variable declaration
+
+var <identifier = name>: <type> = value
+
+
+constant declaration
+
+let <identifier = name>: <type> = value
+
+
+<type>
+
+Primitive type, int, string, float, double, bool
+
+
+<value>
+
+Identifier or Literal
+
+
+Class declaration
+
+class <identifier>
+
+
+method declaration
+
+method <identifier = name> requires (<identifier>: <type>, <identifier>: <type>,,,) -> [<type>] {
+	block
+	[return]
+}
+
+
+while loop
+
+while boolean {
+	block
+}
+
+
+Method invocation
+
+	<identifier = name> ((<value>...))
+	
+
+Return statement
+
+return <value>
+
+
+print statement
+
+print <value>

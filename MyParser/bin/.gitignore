@@ -5,3 +5,10 @@
 /SimpleCharStream.java
 /Token.java
 /TokenMgrError.java
+/Tokenizer.class
+/TokenData.class
+/Token.class
+/TokenType.class
+/tokenizer/
+/Main.class
+/Main$main.class
