@@ -9,39 +9,61 @@ public interface MyParserConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int STRING = 5;
+  int REQUIRE = 5;
   /** RegularExpression Id. */
-  int DIGIT = 6;
+  int IF = 6;
   /** RegularExpression Id. */
-  int INTEGER = 7;
+  int WHILE = 7;
   /** RegularExpression Id. */
-  int DEF = 8;
+  int FOR = 8;
   /** RegularExpression Id. */
-  int NAME = 9;
+  int FUNC = 9;
   /** RegularExpression Id. */
-  int ASSIGNMENT = 10;
+  int STRING = 10;
   /** RegularExpression Id. */
-  int ADD = 11;
+  int DIGIT = 11;
   /** RegularExpression Id. */
-  int SUB = 12;
+  int INTEGER = 12;
   /** RegularExpression Id. */
-  int MUL = 13;
+  int DEF = 13;
   /** RegularExpression Id. */
-  int DIV = 14;
+  int LETTER = 14;
   /** RegularExpression Id. */
-  int EQ = 15;
+  int NAME = 15;
   /** RegularExpression Id. */
-  int LESS = 16;
+  int ASSIGNMENT = 16;
   /** RegularExpression Id. */
-  int GREATER = 17;
+  int RETURNSYMBOL = 17;
   /** RegularExpression Id. */
-  int LESSOREQUAL = 18;
+  int ADD = 18;
   /** RegularExpression Id. */
-  int GREATEROREQUAL = 19;
+  int SUB = 19;
   /** RegularExpression Id. */
-  int OBRACKET = 20;
+  int MUL = 20;
   /** RegularExpression Id. */
-  int CBRACKET = 21;
+  int DIV = 21;
+  /** RegularExpression Id. */
+  int EQ = 22;
+  /** RegularExpression Id. */
+  int NEQ = 23;
+  /** RegularExpression Id. */
+  int LESS = 24;
+  /** RegularExpression Id. */
+  int GREATER = 25;
+  /** RegularExpression Id. */
+  int LESSOREQUAL = 26;
+  /** RegularExpression Id. */
+  int GREATEROREQUAL = 27;
+  /** RegularExpression Id. */
+  int OBRACKET = 28;
+  /** RegularExpression Id. */
+  int CBRACKET = 29;
+  /** RegularExpression Id. */
+  int OBRACE = 30;
+  /** RegularExpression Id. */
+  int CBRACE = 31;
+  /** RegularExpression Id. */
+  int SEMICOLON = 32;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -53,23 +75,34 @@ public interface MyParserConstants {
     "\"\\t\"",
     "\"\\r\"",
     "\"\\n\"",
+    "\"require\"",
+    "\"if\"",
+    "\"while\"",
+    "\"for\"",
+    "\"func\"",
     "<STRING>",
     "<DIGIT>",
     "<INTEGER>",
     "\"def\"",
+    "<LETTER>",
     "<NAME>",
     "\"=\"",
+    "\"->\"",
     "\"+\"",
     "\"-\"",
     "\"*\"",
     "\"/\"",
     "\"==\"",
+    "\"!=\"",
     "\"<\"",
     "\" >\"",
     "\"<=\"",
     "\" >=\"",
     "\"(\"",
     "\")\"",
+    "\"{\"",
+    "\"}\"",
+    "\";\"",
   };
 
 }

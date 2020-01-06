@@ -9,7 +9,7 @@ public class MyParser {
 	public static void main(String[] args) {
 	  try {
 	    MyParser parser = new MyParser( System.in );
-	    parser.UnaryExpression();
+	    parser.StatementExpression();
 	    System.out.println("Pass");
 	  } catch (Throwable e) {
 	    System.out.println("Fail");
@@ -25,12 +25,22 @@ SKIP: {
 }
 
 TOKEN: {
+  <REQUIRE: "require">
+| <IF: "if">
+| <WHILE: "while">
+| <FOR: "for">
+| <FUNC: "func">
+}
+
+TOKEN: {
   <STRING: "\"" (~["\"", "\\"] | "\\\"" | "\\\\")* "\"" >
-| <DIGIT: ["0"-"9"]>
+| <#DIGIT: ["0"-"9"]>
 | <INTEGER: (["1"-"9"] (["0"-"9"])*) | "0">
 | <DEF: "def">
-| <NAME: (["a"-"z", "A"-"Z"])+>
+| <#LETTER: ["_","a"-"z","A"-"Z"]>
+| <NAME: <LETTER> (<LETTER>|<DIGIT>)*>
 | <ASSIGNMENT: "=">
+| <RETURNSYMBOL: "->">
 }
 
 TOKEN: {
@@ -39,6 +49,7 @@ TOKEN: {
 |   <MUL: "*">
 |   <DIV: "/">
 |	<EQ: "==">
+|	<NEQ: "!=">
 | <LESS: "<">
 | <GREATER: " >">
 | <LESSOREQUAL: "<=">
@@ -48,10 +59,20 @@ TOKEN: {
 TOKEN: {
   <OBRACKET: "(">
 | <CBRACKET: ")">
+| <OBRACE: "{">
+| <CBRACE: "}">
+| <SEMICOLON: ";">
 }
 
-void Start(): {}{ <NAME> }
-void Assignment(): {}{ <NAME> <ASSIGNMENT> <STRING> | <INTEGER> }
+void Start(): {}{
+  (
+    Require()
+  )+
+  (
+    StatementExpression()  )*
+}
+
+void Assignment(): {}{ <NAME> <ASSIGNMENT> (<STRING> | MathExpression()) }
 void VariableDeclaration(): {}{ <DEF> <NAME> <ASSIGNMENT> (<STRING> | <INTEGER>) }
 
 void Add(): {}{ <INTEGER> <ADD> <INTEGER> }
@@ -64,7 +85,69 @@ void MultiplyExpression(): {}{ UnaryExpression() ((<MUL> | <DIV>) UnaryExpressio
 void AddExpression(): {} { MultiplyExpression() <ADD> MultiplyExpression() }
 void UnaryExpression(): {} { <OBRACKET> MathExpression() <CBRACKET> | <INTEGER> | <NAME> }
 void UnaryRelational(): { } { <INTEGER> | <NAME> }
-void RelationalLessExpression() : {} { UnaryRelational()  }
+void RelationalLessExpression() : {} { UnaryRelational() ((<LESS> | <LESSOREQUAL>) UnaryRelational())* }
+void RelationalGreaterExpression() : {} { RelationalLessExpression() ((<GREATER> | <GREATEROREQUAL>) RelationalLessExpression())* }
+void RelationalEqualityExpression() : {} { RelationalGreaterExpression() (( <EQ> | <NEQ> ) RelationalGreaterExpression())* }
+void RelationalExpression() : {} { RelationalEqualityExpression() }
+
+void Require(): {} {
+	<REQUIRE> (<NAME>)+
+}
+
+void StatementExpression(): {} {
+  VariableDeclaration()
+| LOOKAHEAD(2) Assignment()
+| IfExpression()
+| WhileExpression()
+| ForExpression()
+}
+
+void IfExpression(): {} {
+  <IF> RelationalExpression() <OBRACE>
+  	(
+  	  StatementExpression() 	)*
+  <CBRACE>
+}
+
+void WhileExpression(): {} {
+  <WHILE> RelationalExpression() <OBRACE>
+  	(
+  	  StatementExpression()
+ 	)*
+  <CBRACE>
+}
+
+void ForExpression(): {} {
+  <FOR> <OBRACKET> VariableDeclaration() <SEMICOLON> RelationalExpression() <SEMICOLON> Assignment() <CBRACKET> <OBRACE>
+  	(
+  	  StatementExpression()
+ 	)*
+  <CBRACE>
+}
+
+void FuncExpression(): {} {
+	<FUNC> <OBRACKET> <CBRACKET> <OBRACE>
+		(
+  	 		StatementExpression()
+ 		)*
+	<CBRACE>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
