@@ -19,51 +19,63 @@ public interface MyParserConstants {
   /** RegularExpression Id. */
   int FUNC = 9;
   /** RegularExpression Id. */
-  int STRING = 10;
+  int CLASS = 10;
   /** RegularExpression Id. */
-  int DIGIT = 11;
+  int STRING = 11;
   /** RegularExpression Id. */
-  int INTEGER = 12;
+  int DIGIT = 12;
   /** RegularExpression Id. */
-  int DEF = 13;
+  int INTEGER = 13;
   /** RegularExpression Id. */
-  int LETTER = 14;
+  int LET = 14;
   /** RegularExpression Id. */
-  int NAME = 15;
+  int VAR = 15;
   /** RegularExpression Id. */
-  int ASSIGNMENT = 16;
+  int CAPLETTER = 16;
   /** RegularExpression Id. */
-  int RETURNSYMBOL = 17;
+  int LETTER = 17;
   /** RegularExpression Id. */
-  int ADD = 18;
+  int IDENTIFIER = 18;
   /** RegularExpression Id. */
-  int SUB = 19;
+  int TYPE = 19;
   /** RegularExpression Id. */
-  int MUL = 20;
+  int ASSIGNMENT = 20;
   /** RegularExpression Id. */
-  int DIV = 21;
+  int RETURNSYMBOL = 21;
   /** RegularExpression Id. */
-  int EQ = 22;
+  int ADD = 22;
   /** RegularExpression Id. */
-  int NEQ = 23;
+  int SUB = 23;
   /** RegularExpression Id. */
-  int LESS = 24;
+  int MUL = 24;
   /** RegularExpression Id. */
-  int GREATER = 25;
+  int DIV = 25;
   /** RegularExpression Id. */
-  int LESSOREQUAL = 26;
+  int EQ = 26;
   /** RegularExpression Id. */
-  int GREATEROREQUAL = 27;
+  int NEQ = 27;
   /** RegularExpression Id. */
-  int OBRACKET = 28;
+  int LESS = 28;
   /** RegularExpression Id. */
-  int CBRACKET = 29;
+  int GREATER = 29;
   /** RegularExpression Id. */
-  int OBRACE = 30;
+  int LESSOREQUAL = 30;
   /** RegularExpression Id. */
-  int CBRACE = 31;
+  int GREATEROREQUAL = 31;
   /** RegularExpression Id. */
-  int SEMICOLON = 32;
+  int OBRACKET = 32;
+  /** RegularExpression Id. */
+  int CBRACKET = 33;
+  /** RegularExpression Id. */
+  int OBRACE = 34;
+  /** RegularExpression Id. */
+  int CBRACE = 35;
+  /** RegularExpression Id. */
+  int COLON = 36;
+  /** RegularExpression Id. */
+  int COMMA = 37;
+  /** RegularExpression Id. */
+  int EOL = 38;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -80,12 +92,16 @@ public interface MyParserConstants {
     "\"while\"",
     "\"for\"",
     "\"func\"",
+    "\"class\"",
     "<STRING>",
     "<DIGIT>",
     "<INTEGER>",
-    "\"def\"",
+    "\"let\"",
+    "\"var\"",
+    "<CAPLETTER>",
     "<LETTER>",
-    "<NAME>",
+    "<IDENTIFIER>",
+    "<TYPE>",
     "\"=\"",
     "\"->\"",
     "\"+\"",
@@ -102,6 +118,8 @@ public interface MyParserConstants {
     "\")\"",
     "\"{\"",
     "\"}\"",
+    "\":\"",
+    "\",\"",
     "\";\"",
   };
 

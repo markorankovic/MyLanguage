@@ -4,24 +4,40 @@ options {
 
 PARSER_BEGIN(MyParser)
 
+import java.io.FileReader;
+
 public class MyParser {
 
 	public static void main(String[] args) {
 	  try {
-	    MyParser parser = new MyParser( System.in );
-	    parser.StatementExpression();
+	  	MyParser parser = new MyParser( System.in );
+	    parser.S();
 	    System.out.println("Pass");
 	  } catch (Throwable e) {
 	    System.out.println("Fail");
+	    System.out.println(e);
 	  }
 	}
   
 }
 
+abstract class Exp {}
+class Num extends Exp {
+    int value;
+    Num(int v) {value = v;}
+    public String toString() {return value + "";}
+}
+class BinaryExp extends Exp {
+    String op;
+    Exp left, right;
+    BinaryExp(String o, Exp l, Exp r) {op = o; left = l; right = r;}
+    public String toString() {return "(" + op + " " + left + " " + right + ")";}
+}
+
 PARSER_END(MyParser)
 
 SKIP: {
-    " " | "\t" | "\r" | "\n" 
+    " " | "\t" | "\r" | "\n"
 }
 
 TOKEN: {
@@ -30,15 +46,19 @@ TOKEN: {
 | <WHILE: "while">
 | <FOR: "for">
 | <FUNC: "func">
+| <CLASS: "class">
 }
 
 TOKEN: {
   <STRING: "\"" (~["\"", "\\"] | "\\\"" | "\\\\")* "\"" >
 | <#DIGIT: ["0"-"9"]>
 | <INTEGER: (["1"-"9"] (["0"-"9"])*) | "0">
-| <DEF: "def">
-| <#LETTER: ["_","a"-"z","A"-"Z"]>
-| <NAME: <LETTER> (<LETTER>|<DIGIT>)*>
+| <LET: "let">
+| <VAR: "var">
+| <#CAPLETTER: ["A"-"Z"]>
+| <#LETTER: ["_","a"-"z"] (<CAPLETTER>)*>
+| <IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)*>
+| <TYPE: <CAPLETTER> (<IDENTIFIER>)*>
 | <ASSIGNMENT: "=">
 | <RETURNSYMBOL: "->">
 }
@@ -61,7 +81,9 @@ TOKEN: {
 | <CBRACKET: ")">
 | <OBRACE: "{">
 | <CBRACE: "}">
-| <SEMICOLON: ";">
+| <COLON: ":">
+| <COMMA: ",">
+| <EOL: ";">
 }
 
 void Start(): {}{
@@ -72,34 +94,57 @@ void Start(): {}{
     StatementExpression()  )*
 }
 
-void Assignment(): {}{ <NAME> <ASSIGNMENT> (<STRING> | MathExpression()) }
-void VariableDeclaration(): {}{ <DEF> <NAME> <ASSIGNMENT> (<STRING> | <INTEGER>) }
+void Literal(): {} { (<STRING> | S()) }
+void Assignment(): {}{ <IDENTIFIER> <ASSIGNMENT> Literal() <EOL> }
+void VariableDeclaration(): {}{ Def() <IDENTIFIER> <COLON> <TYPE> <ASSIGNMENT> Literal() <EOL> }
 
-void Add(): {}{ <INTEGER> <ADD> <INTEGER> }
-void Sub(): {}{ <INTEGER> <SUB> <INTEGER> }
-void MUL(): {}{ <INTEGER> <MUL> <INTEGER> }
-void DIV(): {}{ <INTEGER> <DIV> <INTEGER> }
-void Equals(): {}{ <INTEGER> <EQ> <INTEGER> }
-void MathExpression(): {}{ AddExpression() }
-void MultiplyExpression(): {}{ UnaryExpression() ((<MUL> | <DIV>) UnaryExpression())* }
-void AddExpression(): {} { MultiplyExpression() <ADD> MultiplyExpression() }
-void UnaryExpression(): {} { <OBRACKET> MathExpression() <CBRACKET> | <INTEGER> | <NAME> }
-void UnaryRelational(): { } { <INTEGER> | <NAME> }
+void Def(): {} { <LET> | <VAR> }
+
+void Equals(): {}{ S() <EQ> S() }
+
+Exp S(): {Exp e;}
+{
+  e=E() <EOF> {return e;}
+}
+
+Exp E(): {Exp e1; Exp e2;}
+{
+  e1=T() ("+" e2=T() {e1 = new BinaryExp("+", e1, e2);} )* {return e1;}
+}
+
+Exp T(): {Exp e1; Exp e2;}
+{
+  e1=F() ("*" e2=F() {e1 = new BinaryExp("*", e1, e2);} )* {return e1;}
+}
+
+Exp F(): {Exp e; Token n;}
+{
+  n=<INTEGER> {return new Num(Integer.parseInt(n.image));}
+|
+  "(" e=E() ")" {return e;}
+}
+
+
+void UnaryRelational(): { } { <INTEGER> | <IDENTIFIER> }
 void RelationalLessExpression() : {} { UnaryRelational() ((<LESS> | <LESSOREQUAL>) UnaryRelational())* }
 void RelationalGreaterExpression() : {} { RelationalLessExpression() ((<GREATER> | <GREATEROREQUAL>) RelationalLessExpression())* }
 void RelationalEqualityExpression() : {} { RelationalGreaterExpression() (( <EQ> | <NEQ> ) RelationalGreaterExpression())* }
 void RelationalExpression() : {} { RelationalEqualityExpression() }
 
 void Require(): {} {
-	<REQUIRE> (<NAME>)+
+	<REQUIRE> <IDENTIFIER>
 }
 
-void StatementExpression(): {} {
-  VariableDeclaration()
+void File(): { } {
+	(StatementExpression())*
+}
+
+void StatementExpression(): {} {  VariableDeclaration()
 | LOOKAHEAD(2) Assignment()
 | IfExpression()
 | WhileExpression()
 | ForExpression()
+| FuncDeclaration()
 }
 
 void IfExpression(): {} {
@@ -118,15 +163,15 @@ void WhileExpression(): {} {
 }
 
 void ForExpression(): {} {
-  <FOR> <OBRACKET> VariableDeclaration() <SEMICOLON> RelationalExpression() <SEMICOLON> Assignment() <CBRACKET> <OBRACE>
+  <FOR> <OBRACKET> VariableDeclaration() <COMMA> RelationalExpression() <COMMA> Assignment() <CBRACKET> <OBRACE>
   	(
   	  StatementExpression()
  	)*
   <CBRACE>
 }
 
-void FuncExpression(): {} {
-	<FUNC> <OBRACKET> <CBRACKET> <OBRACE>
+void FuncDeclaration(): {} {
+	<FUNC> <IDENTIFIER> <OBRACKET> ((<IDENTIFIER> <IDENTIFIER>) (<COMMA> <IDENTIFIER> <IDENTIFIER>)*)? <CBRACKET> <RETURNSYMBOL> <TYPE> <OBRACE>
 		(
   	 		StatementExpression()
  		)*
@@ -137,7 +182,7 @@ void FuncExpression(): {} {
 
 
 
-
+ 
 
 
 
