@@ -2,5 +2,5 @@
 
 class MyClass
 
-	method MyMethod requires ()
+	method MyMethod requires () returns 
 		print "hello"
