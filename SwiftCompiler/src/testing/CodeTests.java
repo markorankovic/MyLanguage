@@ -11,7 +11,7 @@ public class CodeTests {
 	String identifierAndTypeSyntax = identifier + ":( )?" + type;
 	String variableDeclarationSyntax = "var " + identifierAndTypeSyntax + "(( )?)=(( )?)" + value;
 	String functionParametersSyntax = "\\(" + "(" + identifierAndTypeSyntax + "(" + ", " + identifierAndTypeSyntax + ")*" + ")*" + "\\)";
-	String functionDeclarationSyntax = "func " + identifier + "(( )?)" + functionParametersSyntax + "(( )?)" + "\\{" + "(( |\n)*)" + "\\}";
+	String functionDeclarationSyntax = "func " + identifier + "(( )?)" + functionParametersSyntax + "(" + "((( )?)->(( )?))" + type + ")?" + "(( )?)" + "\\{" + "(( |\n)*)" + "\\}";
 	
 	@Test
 	public void validFunctionDeclaration() {
@@ -21,12 +21,16 @@ public class CodeTests {
 		String funcDecEx4 = "func f(){\n\n }";
 		String funcDecEx5 = "func f(x: Int){\n\n }";
 		String funcDecEx6 = "func f(x: Int, y: Int){\n\n }";
+		String funcDecEx7 = "func f(x: Int, y: Int)->Int{\n\n }";
+		String funcDecEx8 = "func f(x: Int, y: Int) -> Int {\n\n }";
 		Assert.assertTrue(funcDecEx.matches(functionDeclarationSyntax));
 		Assert.assertTrue(funcDecEx2.matches(functionDeclarationSyntax));
 		Assert.assertTrue(funcDecEx3.matches(functionDeclarationSyntax));
 		Assert.assertTrue(funcDecEx4.matches(functionDeclarationSyntax));
 		Assert.assertTrue(funcDecEx5.matches(functionDeclarationSyntax));
 		Assert.assertTrue(funcDecEx6.matches(functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx7.matches(functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx8.matches(functionDeclarationSyntax));
 	}
 	
 	@Test
