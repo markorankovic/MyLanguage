@@ -1,5 +1,0 @@
-let x: String = "x";
-
-func f() -> String {
-	let y: Integer = (5 + 5);
-}
