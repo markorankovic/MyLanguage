@@ -3,7 +3,7 @@ package testing;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class Tests {
+public class CodeTests {
 	
 	@Test
 	public void validFunctionDeclaration() {
