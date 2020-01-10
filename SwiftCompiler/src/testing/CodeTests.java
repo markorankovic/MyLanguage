@@ -5,13 +5,54 @@ import org.junit.Test;
 
 public class CodeTests {
 	
-	String identifier = "[a-zA-Z]([a-zA-Z0-9])*";
+	String identifier = "([a-zA-Z]([a-zA-Z0-9])*)";
 	String type = identifier;
-	String value = "([0-9])";
+	String integer = "(([1-9]([0-9]*))|0)";
+	String literal = "(" + integer + "|" + identifier + ")";
+	
+	String additionSymbol = "\\+";
+	String additionSyntax = literal + "( ?)" + additionSymbol + "( ?)" + literal;
+	
 	String identifierAndTypeSyntax = identifier + ":( )?" + type;
-	String variableDeclarationSyntax = "var " + identifierAndTypeSyntax + "(( )?)=(( )?)" + value;
+	String variableDeclarationSyntax = "var " + identifierAndTypeSyntax + "(( )?)=(( )?)" + integer;
+	
 	String functionParametersSyntax = "\\(" + "(" + identifierAndTypeSyntax + "(" + ", " + identifierAndTypeSyntax + ")*" + ")*" + "\\)";
 	String functionDeclarationSyntax = "func " + identifier + "(( )?)" + functionParametersSyntax + "(" + "((( )?)->(( )?))" + type + ")?" + "(( )?)" + "\\{" + "(( |\n)*)" + "\\}";
+	
+	@Test
+	public void literalTest() {
+		String intEx = "5";
+		String intEx2 = "0";
+		String intEx3 = "50";
+		String intEx4 = "00";
+		Assert.assertTrue(intEx.matches(literal));
+		Assert.assertTrue(intEx2.matches(literal));
+		Assert.assertTrue(intEx3.matches(literal));
+		Assert.assertFalse(intEx4.matches(literal));
+	}
+	
+	@Test
+	public void integerTest() {
+		String intEx = "5";
+		String intEx2 = "0";
+		String intEx3 = "50";
+		String intEx4 = "00";
+		Assert.assertTrue(intEx.matches(integer));
+		Assert.assertTrue(intEx2.matches(integer));
+		Assert.assertTrue(intEx3.matches(integer));
+		Assert.assertFalse(intEx4.matches(integer));
+	}
+	
+	@Test
+	public void additionSymbolTest() {
+		Assert.assertTrue("+".matches(additionSymbol));
+	}
+	
+	@Test
+	public void additionTest() {
+		String additionEx = "5 + 5";
+		Assert.assertTrue(additionEx.matches(additionSyntax));
+	}
 	
 	@Test
 	public void validFunctionDeclaration() {
@@ -55,11 +96,6 @@ public class CodeTests {
 		Assert.assertTrue(varDecEx6.matches(variableDeclarationSyntax));
 	}
 		
-	@Test
-	public void validVariable() {
-		Assert.assertTrue(false);
-	}
-	
 	@Test
 	public void validIdentifier() {
 		String identifierEx = "v";
