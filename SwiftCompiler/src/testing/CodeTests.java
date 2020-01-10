@@ -3,32 +3,20 @@ package testing;
 import org.junit.Assert;
 import org.junit.Test;
 
+import swift.SyntaxDefinitions;
+
 public class CodeTests {
-	
-	String identifier = "([a-zA-Z]([a-zA-Z0-9])*)";
-	String type = identifier;
-	String integer = "(([1-9]([0-9]*))|0)";
-	String literal = "(" + integer + "|" + identifier + ")";
-	
-	String additionSymbol = "\\+";
-	String additionSyntax = literal + "( ?)" + additionSymbol + "( ?)" + literal;
-	
-	String identifierAndTypeSyntax = identifier + ":( )?" + type;
-	String variableDeclarationSyntax = "var " + identifierAndTypeSyntax + "(( )?)=(( )?)" + integer;
-	
-	String functionParametersSyntax = "\\(" + "(" + identifierAndTypeSyntax + "(" + ", " + identifierAndTypeSyntax + ")*" + ")*" + "\\)";
-	String functionDeclarationSyntax = "func " + identifier + "(( )?)" + functionParametersSyntax + "(" + "((( )?)->(( )?))" + type + ")?" + "(( )?)" + "\\{" + "(( |\n)*)" + "\\}";
-	
+		
 	@Test
 	public void literalTest() {
 		String intEx = "5";
 		String intEx2 = "0";
 		String intEx3 = "50";
 		String intEx4 = "00";
-		Assert.assertTrue(intEx.matches(literal));
-		Assert.assertTrue(intEx2.matches(literal));
-		Assert.assertTrue(intEx3.matches(literal));
-		Assert.assertFalse(intEx4.matches(literal));
+		Assert.assertTrue(intEx.matches(SyntaxDefinitions.literal));
+		Assert.assertTrue(intEx2.matches(SyntaxDefinitions.literal));
+		Assert.assertTrue(intEx3.matches(SyntaxDefinitions.literal));
+		Assert.assertFalse(intEx4.matches(SyntaxDefinitions.literal));
 	}
 	
 	@Test
@@ -37,21 +25,21 @@ public class CodeTests {
 		String intEx2 = "0";
 		String intEx3 = "50";
 		String intEx4 = "00";
-		Assert.assertTrue(intEx.matches(integer));
-		Assert.assertTrue(intEx2.matches(integer));
-		Assert.assertTrue(intEx3.matches(integer));
-		Assert.assertFalse(intEx4.matches(integer));
+		Assert.assertTrue(intEx.matches(SyntaxDefinitions.integer));
+		Assert.assertTrue(intEx2.matches(SyntaxDefinitions.integer));
+		Assert.assertTrue(intEx3.matches(SyntaxDefinitions.integer));
+		Assert.assertFalse(intEx4.matches(SyntaxDefinitions.integer));
 	}
 	
 	@Test
 	public void additionSymbolTest() {
-		Assert.assertTrue("+".matches(additionSymbol));
+		Assert.assertTrue("+".matches(SyntaxDefinitions.additionSymbol));
 	}
 	
 	@Test
 	public void additionTest() {
 		String additionEx = "5 + 5";
-		Assert.assertTrue(additionEx.matches(additionSyntax));
+		Assert.assertTrue(additionEx.matches(SyntaxDefinitions.additionSyntax));
 	}
 	
 	@Test
@@ -64,14 +52,14 @@ public class CodeTests {
 		String funcDecEx6 = "func f(x: Int, y: Int){\n\n }";
 		String funcDecEx7 = "func f(x: Int, y: Int)->Int{\n\n }";
 		String funcDecEx8 = "func f(x: Int, y: Int) -> Int {\n\n }";
-		Assert.assertTrue(funcDecEx.matches(functionDeclarationSyntax));
-		Assert.assertTrue(funcDecEx2.matches(functionDeclarationSyntax));
-		Assert.assertTrue(funcDecEx3.matches(functionDeclarationSyntax));
-		Assert.assertTrue(funcDecEx4.matches(functionDeclarationSyntax));
-		Assert.assertTrue(funcDecEx5.matches(functionDeclarationSyntax));
-		Assert.assertTrue(funcDecEx6.matches(functionDeclarationSyntax));
-		Assert.assertTrue(funcDecEx7.matches(functionDeclarationSyntax));
-		Assert.assertTrue(funcDecEx8.matches(functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx.matches(SyntaxDefinitions.functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx2.matches(SyntaxDefinitions.functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx3.matches(SyntaxDefinitions.functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx4.matches(SyntaxDefinitions.functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx5.matches(SyntaxDefinitions.functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx6.matches(SyntaxDefinitions.functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx7.matches(SyntaxDefinitions.functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx8.matches(SyntaxDefinitions.functionDeclarationSyntax));
 	}
 	
 	@Test
@@ -88,12 +76,12 @@ public class CodeTests {
 		String varDecEx5 = "var V: Int= 1";
 		String varDecEx6 = "var V:Int=1";
 
-		Assert.assertTrue(varDecEx.matches(variableDeclarationSyntax));
-		Assert.assertFalse(varDecEx2.matches(variableDeclarationSyntax));
-		Assert.assertTrue(varDecEx3.matches(variableDeclarationSyntax));
-		Assert.assertTrue(varDecEx4.matches(variableDeclarationSyntax));
-		Assert.assertTrue(varDecEx5.matches(variableDeclarationSyntax));
-		Assert.assertTrue(varDecEx6.matches(variableDeclarationSyntax));
+		Assert.assertTrue(varDecEx.matches(SyntaxDefinitions.variableDeclarationSyntax));
+		Assert.assertFalse(varDecEx2.matches(SyntaxDefinitions.variableDeclarationSyntax));
+		Assert.assertTrue(varDecEx3.matches(SyntaxDefinitions.variableDeclarationSyntax));
+		Assert.assertTrue(varDecEx4.matches(SyntaxDefinitions.variableDeclarationSyntax));
+		Assert.assertTrue(varDecEx5.matches(SyntaxDefinitions.variableDeclarationSyntax));
+		Assert.assertTrue(varDecEx6.matches(SyntaxDefinitions.variableDeclarationSyntax));
 	}
 		
 	@Test
@@ -102,10 +90,10 @@ public class CodeTests {
 		String identifierEx2 = "n";
 		String identifierEx3 = "tD7";
 		String identifierEx4 = "T";
-		Assert.assertTrue(identifierEx.matches(identifier));
-		Assert.assertTrue(identifierEx2.matches(identifier));
-		Assert.assertTrue(identifierEx3.matches(identifier));
-		Assert.assertTrue(identifierEx4.matches(identifier));
+		Assert.assertTrue(identifierEx.matches(SyntaxDefinitions.identifier));
+		Assert.assertTrue(identifierEx2.matches(SyntaxDefinitions.identifier));
+		Assert.assertTrue(identifierEx3.matches(SyntaxDefinitions.identifier));
+		Assert.assertTrue(identifierEx4.matches(SyntaxDefinitions.identifier));
 	}
 	
 }
