@@ -8,11 +8,25 @@ public class CodeTests {
 	String identifier = "[a-zA-Z]([a-zA-Z0-9])*";
 	String type = identifier;
 	String value = "([0-9])";
-	String variableDeclarationSyntax = "var " + identifier + ": " + type + " = " + value;
+	String identifierAndTypeSyntax = identifier + ":( )?" + type;
+	String variableDeclarationSyntax = "var " + identifierAndTypeSyntax + "(( )?)=(( )?)" + value;
+	String functionParametersSyntax = "\\(" + "(" + identifierAndTypeSyntax + "(" + ", " + identifierAndTypeSyntax + ")*" + ")*" + "\\)";
+	String functionDeclarationSyntax = "func " + identifier + "(( )?)" + functionParametersSyntax + "(( )?)" + "\\{" + "(( |\n)*)" + "\\}";
 	
 	@Test
 	public void validFunctionDeclaration() {
-		Assert.assertTrue(false);
+		String funcDecEx = "func f() {}";
+		String funcDecEx2 = "func f(){}";
+		String funcDecEx3 = "func f(){     }";
+		String funcDecEx4 = "func f(){\n\n }";
+		String funcDecEx5 = "func f(x: Int){\n\n }";
+		String funcDecEx6 = "func f(x: Int, y: Int){\n\n }";
+		Assert.assertTrue(funcDecEx.matches(functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx2.matches(functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx3.matches(functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx4.matches(functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx5.matches(functionDeclarationSyntax));
+		Assert.assertTrue(funcDecEx6.matches(functionDeclarationSyntax));
 	}
 	
 	@Test
@@ -25,12 +39,18 @@ public class CodeTests {
 		String varDecEx = "var v: Int = 1";
 		String varDecEx2 = "var 9: Int = 1";
 		String varDecEx3 = "var V: Int = 1";
+		String varDecEx4 = "var V:Int = 1";
+		String varDecEx5 = "var V: Int= 1";
+		String varDecEx6 = "var V:Int=1";
 
 		Assert.assertTrue(varDecEx.matches(variableDeclarationSyntax));
 		Assert.assertFalse(varDecEx2.matches(variableDeclarationSyntax));
 		Assert.assertTrue(varDecEx3.matches(variableDeclarationSyntax));
+		Assert.assertTrue(varDecEx4.matches(variableDeclarationSyntax));
+		Assert.assertTrue(varDecEx5.matches(variableDeclarationSyntax));
+		Assert.assertTrue(varDecEx6.matches(variableDeclarationSyntax));
 	}
-	
+		
 	@Test
 	public void validVariable() {
 		Assert.assertTrue(false);
