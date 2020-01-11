@@ -30,7 +30,7 @@ public class CommandProcessor {
 	ArrayList<Command> commands = new ArrayList<Command>();
 	
 	// Command line
-	CommandTextArea commandList;
+	OutputArea outputArea;
 	
 	void initializeCommandReference() { }
 					
@@ -80,8 +80,8 @@ public class CommandProcessor {
 	
 	// The command line if present will display invalid command to user
 	void reportInvalidToCommandLine() {
-		if (commandList != null) {
-			commandList.setText(commandList.getText() + "\n" + "Invalid command.");
+		if (outputArea != null) {
+			outputArea.setText(outputArea.getText() + "\n" + "Invalid command.");
 		}
 	}
 		
@@ -175,8 +175,8 @@ public class CommandProcessor {
 	
 	// Clear any existing command line
 	void clearCommandList() {
-		if (commandList != null) {
-			commandList.setText("");
+		if (outputArea != null) {
+			outputArea.setText("");
 		}
 	}
 	
@@ -193,7 +193,7 @@ public class CommandProcessor {
 				commands.clear();
 				return;
 			}
-			commandList.setText(commandList.getText() + line + "\n");
+			outputArea.setText(outputArea.getText() + line + "\n");
 		}
 	}
 	

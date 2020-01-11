@@ -1,14 +1,11 @@
 package primitivedrawing;
 
-import java.awt.Component;
-import java.awt.Dimension;
 import java.io.File;
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 /**
  * This class is a frame which holds the command line interface.
@@ -21,10 +18,11 @@ public class CommandFrame extends PrimitiveFrame {
 	private static final long serialVersionUID = 1L;
 	
 	public DrawingCommandProcessor dcp;
-		
-	CommandTextArea commandList = new CommandTextArea(false, this);
 	
-	CommandTextArea commandEntry = new CommandTextArea(true, this);
+	InputArea inputArea = new InputArea(this);
+
+	OutputArea outputArea = new OutputArea(this);
+	
 	
 	public CommandFrame() {
 		this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
@@ -32,9 +30,9 @@ public class CommandFrame extends PrimitiveFrame {
 		this.dcp = new DrawingCommandProcessor((DrawingContext) new DrawingGraphics());
 		
 		add((DrawingGraphics)dcp.dc);
-		add(commandEntry);
-		add(commandList);
-		dcp.commandList = commandList;
+		add(inputArea);
+		add(outputArea);
+		dcp.outputArea = outputArea;
 		createMenuBar();
 		
         pack();

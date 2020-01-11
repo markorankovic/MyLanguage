@@ -95,21 +95,15 @@ public class Scope {
 		return rectCommand;
 	}
 	
-	private CircleCommand circleCommand(String statement) {
-		try {
-			System.out.println(Driver.pd.commandFrame);
-			CircleCommand circleCommand = new CircleCommand(Driver.pd.commandFrame.dcp);
-			ArrayList<String> arguments = new ArrayList<>();
-			String[] tokens = (statement.split(" "));
-			String arg1 = run(tokens[1]) + "";
-			arguments.add(arg1);
-			circleCommand.arguments = arguments;
-			Driver.pd.commandFrame.dcp.runCommand(circleCommand);
-			return circleCommand;
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		return null;
+	private CircleCommand circleCommand(String statement) throws Exception {
+		CircleCommand circleCommand = new CircleCommand(Driver.pd.commandFrame.dcp);
+		ArrayList<String> arguments = new ArrayList<>();
+		String[] tokens = (statement.split(" "));
+		String arg1 = run(tokens[1]) + "";
+		arguments.add(arg1);
+		circleCommand.arguments = arguments;
+		Driver.pd.commandFrame.dcp.runCommand(circleCommand);
+		return circleCommand;
 	}
 	
 	private ClearCommand clearCommand(String statement) throws Exception {
