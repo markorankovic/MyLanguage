@@ -8,6 +8,12 @@ import swift.SyntaxDefinitions;
 public class SyntaxTests {
 		
 	@Test
+	public void whileTest() {
+		//String whileSyntax = "while\\s+(.+)\\s+\\{\\s*(.+)\\s*\\}";
+		Assert.assertTrue("while i < 3 { do something }".matches(SyntaxDefinitions.whileLoopSyntax));
+	}
+	
+	@Test
 	public void literalTest() {
 		String intEx = "5";
 		String intEx2 = "0";
@@ -40,6 +46,12 @@ public class SyntaxTests {
 	public void additionTest() {
 		String additionEx = "5 + 5";
 		Assert.assertTrue(additionEx.matches(SyntaxDefinitions.additionSyntax));
+	}
+	
+	@Test
+	public void booleanTest() {
+		String additionEx = "5 < 5";
+		Assert.assertTrue(additionEx.matches(SyntaxDefinitions.lessThan));
 	}
 	
 	@Test

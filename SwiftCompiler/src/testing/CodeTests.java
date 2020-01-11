@@ -7,38 +7,35 @@ import structures.Variable;
 import swift.Scope;
 
 public class CodeTests {
-
-	Scope globalScope = new Scope();
 	
 	@Test
 	public void additionTest() {
+		Scope scope = new Scope();
+
 		try {
-		Assert.assertTrue(globalScope.addition("3 + 7") == 10);
-		Assert.assertTrue(globalScope.addition("5+ 9") == 14);
-		Assert.assertTrue(globalScope.addition("1 +8") == 9);
-		Assert.assertTrue(globalScope.addition("6+4") == 10);
+		Assert.assertTrue(scope.addition("3 + 7") == 10);
+		Assert.assertTrue(scope.addition("5+ 9") == 14);
+		Assert.assertTrue(scope.addition("1 +8") == 9);
+		Assert.assertTrue(scope.addition("6+4") == 10);
 		} catch (Exception e) {
 			Assert.fail();
 		}
 		
 		try {
-			globalScope.addition("6+  4");
-			globalScope.addition("6    +  4");
+			scope.addition("6+  4");
+			scope.addition("6    +  4");
 			Assert.fail();
 		} catch (Exception e) {
 		}
 	}
-	
-	@Test
-	public void booleanTest() {
-		Assert.fail();
-	}
-	
+		
 	@Test
 	public void variableTest() {
+		Scope scope = new Scope();
+
 		String statement = "var x = 7";
 		try {
-			Variable v = globalScope.variableDeclaration(statement);
+			Variable v = scope.variableDeclaration(statement);
 			Assert.assertTrue(v.getValue().equals("7"));
 		} catch (Exception e) {
 			Assert.fail();
@@ -64,7 +61,7 @@ public class CodeTests {
 		try {
 //			r = scope.run(statement);
 //			r == 7
-			int r = scope.run(statement);
+			int r = (int) scope.run(statement);
 			Assert.assertTrue(r == 7);
 		} catch (Exception e) {
 			Assert.fail();
@@ -73,17 +70,12 @@ public class CodeTests {
 	
 	@Test
 	public void variableReassignmentTest() {
-		String statement = "var x = 5";
-		Variable v;
+		Scope scope = new Scope();
+
+		String statement = "var x = 5 \n x = 10";
 		try {
-			v = globalScope.variableDeclaration(statement);
-		} catch (Exception e) {
-		}
-		
-		statement = "x = 10";
-		try {
-			v = globalScope.variableReassignment(statement);
-			Assert.assertTrue(v.getValue().equals("10"));
+			int r = (int) scope.run(statement);
+			Assert.assertTrue(r == 10);
 		} catch (Exception e) {
 			Assert.fail();
 		}
@@ -94,7 +86,7 @@ public class CodeTests {
 		Scope scope = new Scope();
 		String statement = "var x = 0 \n x = x + 1";
 		try {
-			int r = scope.run(statement);
+			int r = (int) scope.run(statement);
 			Assert.assertTrue(r == 1);
 		} catch (Exception e) {
 			Assert.fail();
@@ -106,7 +98,7 @@ public class CodeTests {
 		Scope scope = new Scope();
 		String statement = "var x = 0 \n x = x + 1 \n x = x + 1";
 		try {
-			int r = scope.run(statement);
+			int r = (int) scope.run(statement);
 			Assert.assertTrue(r == 2);
 		} catch (Exception e) {
 			Assert.fail();
@@ -114,16 +106,30 @@ public class CodeTests {
 	}
 	
 	@Test
-	public void getVariableTest3() {
+	public void getVariableTest6() {
 		Scope scope = new Scope();
-		String statement = "var i = 0 \n while i < 3 { i = i + 1 }";
 		try {
-			int r = scope.run(statement);
-			Assert.assertTrue(r == 3);
-			Assert.assertTrue(Integer.parseInt(scope.getVariable("x").getValue()) == 3);
+			scope.run("var i = 2");
+			scope.run("var j = 3");
+			String statement = "i < j";
+			boolean r = (boolean) scope.run(statement);
+			Assert.assertTrue(r);
 		} catch (Exception e) {
 			Assert.fail();
 		}
 	}
-
+		
+	@Test
+	public void getVariableTest3() {
+		Scope scope = new Scope();
+		String statement = "var i = 0 \n while i < 3 { i = i + 1 }";
+		try {
+			int r = (int) scope.run(statement);
+			System.out.println(r);
+			Assert.assertTrue(r == 3);
+		} catch (Exception e) {
+			Assert.fail();
+		}
+	}
+	
 }
