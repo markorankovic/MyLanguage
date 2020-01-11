@@ -18,7 +18,7 @@ public class SyntaxDefinitions {
 	public static String comparison = literal + "( ?)" + "(" + lessThan + "|" + greaterThan + ")" + "( ?)" + literal;
 	
 	public static String identifierAndTypeSyntax = identifier + ":( )?" + type;
-	public static String variableDeclarationSyntax = "var " + "(" + identifierAndTypeSyntax + "|" + identifier + ")" + "(( )?)=(( )?)" + integer;
+	public static String variableDeclarationSyntax = "var " + "(" + identifierAndTypeSyntax + "|" + identifier + ")" + "(( )?)=(( )?)" + "(" + literal + "|" + additionSyntax + ")";
 	public static String variableReassignmentSyntax = identifier + "( ?)" + "=" + "( ?)" + operAnd;
 	
 	public static String functionParametersSyntax = "\\(" + "(" + identifierAndTypeSyntax + "(" + ", " + identifierAndTypeSyntax + ")*" + ")*" + "\\)";

@@ -10,6 +10,9 @@ import java.awt.Component;
 
 public class PrimitiveDrawing {
 	
+	public DrawingCommandProcessor dcp;
+	public CommandFrame commandFrame;
+	
 	/**
 	 * The program creates two separate frames, one for the command line, 
 	 * the other for rendering the graphics.
@@ -22,9 +25,9 @@ public class PrimitiveDrawing {
 		int height = 600;
 				
 		DrawingFrame gf = new DrawingFrame("primitivedrawing demo");
-		DrawingCommandProcessor dcp = new DrawingCommandProcessor((DrawingContext) new DrawingGraphics(width, height));
+		dcp = new DrawingCommandProcessor((DrawingContext) new DrawingGraphics(width, height));
 		CommandFrame commandFrame = new CommandFrame(dcp);       
-               
+        
 		gf.setSize(width, height);
 		gf.setVisible(true);
 		gf.add((Component) dcp.dc);
@@ -36,8 +39,4 @@ public class PrimitiveDrawing {
 		commandFrame.setVisible(true);
 	}
 	
-	public static void main(String[] args) {
-		new PrimitiveDrawing();
-	}
-
 }

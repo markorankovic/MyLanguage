@@ -110,8 +110,12 @@ public class CommandProcessor {
 	 */
 	void runCommands() {
 		for (Command command : commands) {
-			command.execution();
+			runCommand(command);
 		}
+	}
+	
+	public void runCommand(Command command) {
+		command.execution();
 	}
 	
 	/**

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import primitivedrawing.Commands.CircleCommand;
+import primitivedrawing.Commands.ClearCommand;
+import primitivedrawing.Commands.RectCommand;
 import structures.Variable;
 
 public class Scope {
@@ -17,16 +20,51 @@ public class Scope {
 		String[] statements = code.split("( *)\n( *)");
 		int i = 0;
 		for (String statement : statements) {
-			if (statement.matches(SyntaxDefinitions.whileLoopSyntax)) {
-				return whileLoop(statement);
+			if (statement.matches(CommandDefinitions.clearCommand)) {
+				ClearCommand c = clearCommand(statement);
+				if (i == statements.length - 1) {
+					return c;
+				}
+
+			} else if (statement.matches(CommandDefinitions.circleCommand)) {
+				CircleCommand c = circleCommand(statement);
+				if (i == statements.length - 1) {
+					return c;
+				}
+
+			} else if (statement.matches(CommandDefinitions.rectCommand)) {
+				RectCommand r = rectCommand(statement);
+				if (i == statements.length - 1) {
+					return r;
+				}
+
+			} else if (statement.matches(SyntaxDefinitions.whileLoopSyntax)) {
+				int w = whileLoop(statement);
+				if (i == statements.length - 1) {
+					return w;
+				}
+
 			} else if (statement.matches(SyntaxDefinitions.greaterThan)) {
-				return greaterThan(statement);
+				boolean b = greaterThan(statement);
+				if (i == statements.length - 1) {
+					return b;
+				}
+
 			} else if (statement.matches(SyntaxDefinitions.lessThan)) {
-				return lessThan(statement);
-			} if (statement.matches(SyntaxDefinitions.additionSyntax)) {
-				return addition(statement);
+				boolean b = lessThan(statement);
+				if (i == statements.length - 1) {
+					return b;
+				}
+			} else if (statement.matches(SyntaxDefinitions.additionSyntax)) {
+				int a = addition(statement);
+				if (i == statements.length - 1) {
+					return a;
+				}
 			} else if (statement.matches(SyntaxDefinitions.variableDeclarationSyntax)) {
 				Variable v = variableDeclaration(statement);
+				System.out.println(v.getName());
+				System.out.println(v.getValue());
+				System.out.println();
 				map.put(v.getName(), v);
 				if (i == statements.length - 1) {
 					return Integer.parseInt(v.getValue());
@@ -46,8 +84,37 @@ public class Scope {
 		return Integer.parseInt(code);
 	}
 	
-	private RectCommand rectCommand(String statement) {
-		
+	private RectCommand rectCommand(String statement) throws Exception {
+		RectCommand rectCommand = new RectCommand(Driver.pd.dcp);
+		ArrayList<String> arguments = new ArrayList<>();
+		String[] tokens = (statement.replace(" ", "").split(" "))[0].split(",");
+		String arg1 = run(tokens[0].replace("rect", "")) + "";
+		String arg2 = run(tokens[1].replace(",", "")) + "";
+		arguments.add(arg1);
+		arguments.add(arg2);
+		rectCommand.arguments = arguments;
+		Driver.pd.dcp.runCommand(rectCommand);
+		return rectCommand;
+	}
+	
+	private CircleCommand circleCommand(String statement) throws Exception {
+		CircleCommand circleCommand = new CircleCommand(Driver.pd.dcp);
+		ArrayList<String> arguments = new ArrayList<>();
+		String[] tokens = (statement.split(" "));
+		String arg1 = run(tokens[1]) + "";
+		arguments.add(arg1);
+		circleCommand.arguments = arguments;
+		Driver.pd.dcp.runCommand(circleCommand);
+		return circleCommand;
+	}
+	
+	private ClearCommand clearCommand(String statement) throws Exception {
+		if (!statement.matches(CommandDefinitions.clearCommand)) {
+			throw new Exception();
+		}
+		ClearCommand clearCommand = new ClearCommand(Driver.pd.dcp);
+		Driver.pd.dcp.runCommand(clearCommand);
+		return clearCommand;
 	}
 	
 	private int whileLoop(String statement) throws Exception {
@@ -56,10 +123,11 @@ public class Scope {
 				
 		String[] tokens = statement.replace(" ", "").split(SyntaxDefinitions.lessThan);
 		String block = tokens[1].replace("{", "").replace("}", "");
-		
+		System.out.println(block);
 		m.find();
-				
+		System.out.println(m.group(0));
 		while (lessThan(m.group(0))) {
+			System.out.println(1);
 			run(block);
 		}
 		
@@ -106,11 +174,13 @@ public class Scope {
 		if (!line.matches(SyntaxDefinitions.variableDeclarationSyntax)) {
 			throw new Exception();
 		}
-		
-		String[] tokens = line.split(" ");
 		Variable v = new Variable();
-		v.setValue(tokens[3]);
-		v.setName(tokens[1]);
+		
+		String[] tokens = line.replace("var ", "").replace(" ", "").split("=");
+		v.setValue(run(tokens[1]) + "");
+		v.setName(tokens[0]);
+		map.put(v.getName(), v);
+		System.out.println(v);
 		
 		return v;
 	}

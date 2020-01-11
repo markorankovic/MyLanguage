@@ -46,6 +46,12 @@ public class DrawingCommandProcessor extends CommandProcessor {
 	
 	void setFocusToGraphics() { dc.getFocus(); } // Puts focus back on the drawing context
 	
+	@Override
+	public void runCommand(Command command) {
+		super.runCommand(command);
+		setFocusToGraphics();
+	}
+	
 	// Does the same as its superclass but puts focus on the drawing context if the Run Command is executed
 	@Override
 	Command parseCommandString(String commandString) { 

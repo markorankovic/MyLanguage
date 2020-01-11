@@ -94,6 +94,19 @@ public class CodeTests {
 	}
 	
 	@Test
+	public void getVariableTest7() {
+		Scope scope = new Scope();
+		String statement = "var r = 1 + 1";
+		try {
+			int r = (int) scope.run(statement);
+			System.out.println(r);
+			Assert.assertTrue(r == 2);
+		} catch (Exception e) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
 	public void getVariableTest5() {
 		Scope scope = new Scope();
 		String statement = "var x = 0 \n x = x + 1 \n x = x + 1";
@@ -120,12 +133,44 @@ public class CodeTests {
 	}
 		
 	@Test
+	public void rectTest() {
+		Scope scope = new Scope();
+		String statement = "rect 100, 100";
+		try {
+			Assert.assertTrue(scope.run(statement) != null);
+		} catch (Exception e) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void circleTest() {
+		Scope scope = new Scope();
+		String statement = "circle 100";
+		try {
+			Assert.assertTrue(scope.run(statement) != null);
+		} catch (Exception e) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void clearTest() {
+		Scope scope = new Scope();
+		String statement = "clear";
+		try {
+			Assert.assertTrue(scope.run(statement) != null);
+		} catch (Exception e) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
 	public void getVariableTest3() {
 		Scope scope = new Scope();
 		String statement = "var i = 0 \n while i < 3 { i = i + 1 }";
 		try {
 			int r = (int) scope.run(statement);
-			System.out.println(r);
 			Assert.assertTrue(r == 3);
 		} catch (Exception e) {
 			Assert.fail();
