@@ -11,15 +11,26 @@ public class Driver {
 		return statement.split(SyntaxDefinitions.additionSyntax);
 	}
 	
-	public static void main(String[] args) {
-		String statement = "5+5";
-		System.out.println("Statement: " + statement);
-		
+	void patternStuff(String statement) {
 		Matcher m = p.matcher(statement);
 		
 		if (m.find()) {
 			System.out.println(m.group(0));
 		}
+	}
+			
+	public static void main(String[] args) {
+//		try {
+//			String statement = "var x = 7";
+//			System.out.println("Statement: " + statement);
+//			CodeAction.variableDeclaration(statement);
+//			//System.out.println("Result: " + CodeAction.variableDeclaration(statement));
+//		} catch(Exception e) {
+//			System.out.println("Invalid line");
+//		}
+//		
+//		String code = "var x = 7\nvar y = 14";
+//		CodeAction.runCode(code);
 	}
 
 }

@@ -11,9 +11,10 @@ public class SyntaxDefinitions {
 	public static String additionSyntax = literal + "( ?)" + additionSymbol + "( ?)" + literal;
 	
 	public static String identifierAndTypeSyntax = identifier + ":( )?" + type;
-	public static String variableDeclarationSyntax = "var " + identifierAndTypeSyntax + "(( )?)=(( )?)" + integer;
+	public static String variableDeclarationSyntax = "var " + "(" + identifierAndTypeSyntax + "|" + identifier + ")" + "(( )?)=(( )?)" + integer;
+	public static String variableReassignmentSyntax = identifier + "( ?)" + "=" + "( ?)" + literal;
 	
 	public static String functionParametersSyntax = "\\(" + "(" + identifierAndTypeSyntax + "(" + ", " + identifierAndTypeSyntax + ")*" + ")*" + "\\)";
 	public static String functionDeclarationSyntax = "func " + identifier + "(( )?)" + functionParametersSyntax + "(" + "((( )?)->(( )?))" + type + ")?" + "(( )?)" + "\\{" + "(( |\n)*)" + "\\}";
-
+	
 }
