@@ -49,7 +49,7 @@ public class DrawingCommandProcessor extends CommandProcessor {
 	@Override
 	public void runCommand(Command command) {
 		super.runCommand(command);
-		setFocusToGraphics();
+		//setFocusToGraphics();
 	}
 	
 	// Does the same as its superclass but puts focus on the drawing context if the Run Command is executed

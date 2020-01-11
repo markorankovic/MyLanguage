@@ -23,4 +23,8 @@ public class Variable {
 		return name;
 	}
 	
+	public String toString() {
+		return value;
+	}
+	
 }

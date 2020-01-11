@@ -27,6 +27,7 @@ public class Scope {
 				}
 
 			} else if (statement.matches(CommandDefinitions.circleCommand)) {
+				System.out.println(code);
 				CircleCommand c = circleCommand(statement);
 				if (i == statements.length - 1) {
 					return c;
@@ -62,9 +63,6 @@ public class Scope {
 				}
 			} else if (statement.matches(SyntaxDefinitions.variableDeclarationSyntax)) {
 				Variable v = variableDeclaration(statement);
-				System.out.println(v.getName());
-				System.out.println(v.getValue());
-				System.out.println();
 				map.put(v.getName(), v);
 				if (i == statements.length - 1) {
 					return Integer.parseInt(v.getValue());
@@ -85,7 +83,7 @@ public class Scope {
 	}
 	
 	private RectCommand rectCommand(String statement) throws Exception {
-		RectCommand rectCommand = new RectCommand(Driver.pd.dcp);
+		RectCommand rectCommand = new RectCommand(Driver.pd.commandFrame.dcp);
 		ArrayList<String> arguments = new ArrayList<>();
 		String[] tokens = (statement.replace(" ", "").split(" "))[0].split(",");
 		String arg1 = run(tokens[0].replace("rect", "")) + "";
@@ -93,27 +91,33 @@ public class Scope {
 		arguments.add(arg1);
 		arguments.add(arg2);
 		rectCommand.arguments = arguments;
-		Driver.pd.dcp.runCommand(rectCommand);
+		Driver.pd.commandFrame.dcp.runCommand(rectCommand);
 		return rectCommand;
 	}
 	
-	private CircleCommand circleCommand(String statement) throws Exception {
-		CircleCommand circleCommand = new CircleCommand(Driver.pd.dcp);
-		ArrayList<String> arguments = new ArrayList<>();
-		String[] tokens = (statement.split(" "));
-		String arg1 = run(tokens[1]) + "";
-		arguments.add(arg1);
-		circleCommand.arguments = arguments;
-		Driver.pd.dcp.runCommand(circleCommand);
-		return circleCommand;
+	private CircleCommand circleCommand(String statement) {
+		try {
+			System.out.println(Driver.pd.commandFrame);
+			CircleCommand circleCommand = new CircleCommand(Driver.pd.commandFrame.dcp);
+			ArrayList<String> arguments = new ArrayList<>();
+			String[] tokens = (statement.split(" "));
+			String arg1 = run(tokens[1]) + "";
+			arguments.add(arg1);
+			circleCommand.arguments = arguments;
+			Driver.pd.commandFrame.dcp.runCommand(circleCommand);
+			return circleCommand;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return null;
 	}
 	
 	private ClearCommand clearCommand(String statement) throws Exception {
 		if (!statement.matches(CommandDefinitions.clearCommand)) {
 			throw new Exception();
 		}
-		ClearCommand clearCommand = new ClearCommand(Driver.pd.dcp);
-		Driver.pd.dcp.runCommand(clearCommand);
+		ClearCommand clearCommand = new ClearCommand(Driver.pd.commandFrame.dcp);
+		Driver.pd.commandFrame.dcp.runCommand(clearCommand);
 		return clearCommand;
 	}
 	
@@ -123,11 +127,10 @@ public class Scope {
 				
 		String[] tokens = statement.replace(" ", "").split(SyntaxDefinitions.lessThan);
 		String block = tokens[1].replace("{", "").replace("}", "");
-		System.out.println(block);
+		
 		m.find();
-		System.out.println(m.group(0));
+		
 		while (lessThan(m.group(0))) {
-			System.out.println(1);
 			run(block);
 		}
 		
@@ -180,7 +183,6 @@ public class Scope {
 		v.setValue(run(tokens[1]) + "");
 		v.setName(tokens[0]);
 		map.put(v.getName(), v);
-		System.out.println(v);
 		
 		return v;
 	}

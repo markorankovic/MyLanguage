@@ -1,5 +1,7 @@
 package primitivedrawing;
 
+import java.awt.Component;
+import java.awt.Dimension;
 import java.io.File;
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
@@ -18,22 +20,27 @@ public class CommandFrame extends PrimitiveFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	CommandProcessor commandProcessor;
-	
+	public DrawingCommandProcessor dcp;
+		
 	CommandTextArea commandList = new CommandTextArea(false, this);
 	
 	CommandTextArea commandEntry = new CommandTextArea(true, this);
 	
-	public CommandFrame(CommandProcessor commandProcessor) {
-		JPanel listPanel = new JPanel();
-		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.PAGE_AXIS));
-		this.commandProcessor = commandProcessor;
-		listPanel.add(commandList);
-		listPanel.add(commandEntry);
-		add(listPanel);
-		commandProcessor.commandList = commandList;
+	public CommandFrame() {
+		this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+				
+		this.dcp = new DrawingCommandProcessor((DrawingContext) new DrawingGraphics());
+		
+		add((DrawingGraphics)dcp.dc);
+		add(commandEntry);
+		add(commandList);
+		dcp.commandList = commandList;
 		createMenuBar();
+		
+        pack();
 	}
+	
+	
 	
 	/**
 	 * Opens a dialog for opening a file to be sent to the command processor.
@@ -44,7 +51,7 @@ public class CommandFrame extends PrimitiveFrame {
         int returnValue = chooser.showOpenDialog( null ) ;
         if (returnValue == JFileChooser.APPROVE_OPTION ) {
         	File file = chooser.getSelectedFile();
-        	commandProcessor.loadCommandsFromFile(file);
+        	dcp.loadCommandsFromFile(file);
         }
 	}
 	
@@ -60,7 +67,7 @@ public class CommandFrame extends PrimitiveFrame {
 		 
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 		    File fileToSave = fileChooser.getSelectedFile();
-		    commandProcessor.saveCommandsToFile(fileToSave);
+		    dcp.saveCommandsToFile(fileToSave);
 		    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
 		}	
 	}

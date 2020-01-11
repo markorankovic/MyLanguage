@@ -2,6 +2,7 @@ package primitivedrawing;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -25,11 +26,17 @@ public class DrawingGraphics extends Canvas implements DrawingContext, FocusList
 		
 	Sprite rootGraphic = new Sprite();
 	
-	public DrawingGraphics(int width, int height) {
-		super.setSize(width, height);
+	public DrawingGraphics() {
+		super();
+		this.setBackground(Color.YELLOW);
 		this.addFocusListener(this);
 	}
 		
+	 @Override
+	 public Dimension getPreferredSize() {
+	      return new Dimension(500, 300);  
+	 } 
+	
 	@Override
 	public void paint(Graphics g) {
 		rootGraphic.drawTree(g); // Draws all the primitives created
