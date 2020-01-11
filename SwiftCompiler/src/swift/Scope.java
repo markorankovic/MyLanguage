@@ -27,7 +27,6 @@ public class Scope {
 				}
 
 			} else if (statement.matches(CommandDefinitions.circleCommand)) {
-				System.out.println(code);
 				CircleCommand c = circleCommand(statement);
 				if (i == statements.length - 1) {
 					return c;

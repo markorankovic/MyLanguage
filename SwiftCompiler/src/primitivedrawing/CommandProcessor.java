@@ -130,7 +130,6 @@ public class CommandProcessor {
 				Class<? extends Command> cls = commandReference.get(processedInput.get(0));
 				Command command;
 				command = cls.getDeclaredConstructor(CommandProcessor.class).newInstance(this);
-				System.out.println(command);
 				setStringArguments(command, processedInput);
 				return command.argumentsValid() ? command : null;
 			}
@@ -160,10 +159,8 @@ public class CommandProcessor {
 	// Saves the history of executed commands to file
 	void saveCommandsToFile(File file) {
 		String result = "";
-		System.out.println(commandsToStrings());
 		for (String command : commandsToStrings()) {
 			result += command + "\n";
-			System.out.println(result);
 		}
 		BufferedWriter writer;
 		try {
