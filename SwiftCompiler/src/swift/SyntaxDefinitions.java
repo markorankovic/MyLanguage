@@ -3,6 +3,7 @@ package swift;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import primitivedrawing.Commands.CircleCommand;
 import primitivedrawing.Commands.Command;
 import primitivedrawing.Commands.DrawToCommand;
 import primitivedrawing.Commands.PositionCommand;
@@ -148,7 +149,6 @@ class WhileBlockSyntax extends Syntax {
 		if (m.find()) {
 			String condition = m.group(1);
 			String block = m.group(2);
-			System.out.println("while: " + block);
 			int i = 0;
 			while (i < 100 && scope.run(condition).toString() == "true") {
 				scope.result = scope.run(block);
@@ -160,6 +160,33 @@ class WhileBlockSyntax extends Syntax {
 		}
 	}
 }
+
+class IfBlockSyntax extends Syntax {
+	
+	static Pattern pattern = Pattern.compile("^\\s*if[ ]+(.+)[ ]+\\{\\s*([^\\}]+)\\s*\\}(?:\\s*else[ ]+\\{\\s*([^\\}]+)\\s*\\})?");
+	
+	IfBlockSyntax(Scope scope) {
+		this.scope = scope;
+	}
+
+	Matcher evaluate(String code) throws Exception {
+		Matcher m = pattern.matcher(code);
+		if (m.find()) {
+			String condition = m.group(1);
+			String ifBlock = m.group(2);
+			String elseBlock = m.group(3);
+			if (scope.run(condition).toString() == "true") {
+				scope.result = scope.run(ifBlock);
+			} else if (elseBlock != null) {
+				scope.result = scope.run(elseBlock);				
+			}
+			return m;
+		} else {
+			return null;
+		}
+	}
+}
+
 
 class RectCommandSyntax extends Syntax {
 	
@@ -235,5 +262,32 @@ class DrawToCommandSyntax extends Syntax {
 	}
 	
 }
+
+
+class CircleCommandSyntax extends Syntax {
+	
+	static Pattern pattern = Pattern.compile("^\\s*circle[ ]+(.+)");
+	
+	CircleCommandSyntax(Scope scope) {
+		this.scope = scope;
+	}
+
+	Matcher evaluate(String code) throws Exception {
+		Matcher m = pattern.matcher(code);
+		if (m.find()) {
+			int r = Integer.parseInt(scope.run(m.group(1)).toString());
+			scope.result = null;
+			Command command = new CircleCommand(r);
+			command.execution();
+			return m;
+		} else {
+			return null;
+		}
+	}
+	
+}
+
+
+
 
 

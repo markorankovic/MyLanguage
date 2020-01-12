@@ -3,6 +3,7 @@ package primitivedrawing.Commands;
 import primitivedrawing.CommandProcessor;
 import primitivedrawing.DrawingCommandProcessor;
 import primitivedrawing.DrawingContext;
+import swift.Driver;
 
 
 /**
@@ -11,11 +12,12 @@ import primitivedrawing.DrawingContext;
  *
  */
 public class CircleCommand extends DrawCommand {
-
-	public CircleCommand(CommandProcessor processor) {
-		super(processor);
-		numberOfArguments = 1;
+	
+	public CircleCommand(int r) {
+		super(Driver.pd.commandFrame.dcp);
+		this.arguments.add(r + "");
 		this.commandAsString = "circle";
+		this.numberOfArguments = 1;
 	}
 	
 	@Override
