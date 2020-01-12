@@ -4,6 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import primitivedrawing.Commands.Command;
+import primitivedrawing.Commands.DrawToCommand;
+import primitivedrawing.Commands.PositionCommand;
 import primitivedrawing.Commands.RectCommand;
 import structures.Variable;
 
@@ -170,14 +172,61 @@ class RectCommandSyntax extends Syntax {
 	Matcher evaluate(String code) throws Exception {
 		Matcher m = pattern.matcher(code);
 		if (m.find()) {
-			String widthExpr = m.group(1);
-			String heightExpr = m.group(2);
-			int width = Integer.parseInt(scope.run(widthExpr).toString());
+			int width = Integer.parseInt(scope.run(m.group(1)).toString());
 			scope.result = null;
-			int height = Integer.parseInt(scope.run(heightExpr).toString());
+			int height = Integer.parseInt(scope.run(m.group(2)).toString());
 			scope.result = null;
-			System.out.println("DRAW: " + width + ", " + height);
 			Command command = new RectCommand(width, height);
+			command.execution();
+			return m;
+		} else {
+			return null;
+		}
+	}
+	
+}
+
+class MoveToCommandSyntax extends Syntax {
+	
+	static Pattern pattern = Pattern.compile("^\\s*move to[ ]+(.+)[ ]*,[ ]*(.+)");
+	
+	MoveToCommandSyntax(Scope scope) {
+		this.scope = scope;
+	}
+
+	Matcher evaluate(String code) throws Exception {
+		Matcher m = pattern.matcher(code);
+		if (m.find()) {
+			int x = Integer.parseInt(scope.run(m.group(1)).toString());
+			scope.result = null;
+			int y = Integer.parseInt(scope.run(m.group(2)).toString());
+			scope.result = null;
+			Command command = new PositionCommand(x, y);
+			command.execution();
+			return m;
+		} else {
+			return null;
+		}
+	}
+	
+}
+
+class DrawToCommandSyntax extends Syntax {
+	
+	static Pattern pattern = Pattern.compile("^\\s*draw to[ ]+(.+)[ ]*,[ ]*(.+)");
+	
+	DrawToCommandSyntax(Scope scope) {
+		this.scope = scope;
+	}
+
+	Matcher evaluate(String code) throws Exception {
+		Matcher m = pattern.matcher(code);
+		if (m.find()) {
+			int x = Integer.parseInt(scope.run(m.group(1)).toString());
+			scope.result = null;
+			int y = Integer.parseInt(scope.run(m.group(2)).toString());
+			scope.result = null;
+			Command command = new DrawToCommand(x, y);
 			command.execution();
 			return m;
 		} else {

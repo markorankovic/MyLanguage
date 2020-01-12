@@ -3,6 +3,7 @@ package primitivedrawing.Commands;
 import primitivedrawing.CommandProcessor;
 import primitivedrawing.DrawingCommandProcessor;
 import primitivedrawing.DrawingContext;
+import swift.Driver;
 
 /**
  * Command which alters the drawing contexts current position.
@@ -10,11 +11,13 @@ import primitivedrawing.DrawingContext;
  *
  */
 public class PositionCommand extends DrawCommand {
-
-	public PositionCommand(CommandProcessor processor) {
-		super(processor);
+	
+	public PositionCommand(int x, int y) {
+		super(Driver.pd.commandFrame.dcp);
+		this.arguments.add(x + "");
+		this.arguments.add(y + "");
 		this.commandAsString = "position";
-		numberOfArguments = 2;
+		this.numberOfArguments = 2;
 	}
 
 	@Override

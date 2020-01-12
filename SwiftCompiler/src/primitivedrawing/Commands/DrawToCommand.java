@@ -3,6 +3,7 @@ package primitivedrawing.Commands;
 import primitivedrawing.CommandProcessor;
 import primitivedrawing.DrawingCommandProcessor;
 import primitivedrawing.DrawingContext;
+import swift.Driver;
 
 /**
  * Command which draws a line to a point.
@@ -11,10 +12,12 @@ import primitivedrawing.DrawingContext;
  */
 public class DrawToCommand extends DrawCommand {
 
-	public DrawToCommand(CommandProcessor processor) {
-		super(processor);
-		numberOfArguments = 2;
-		this.commandAsString = "drawto";
+	public DrawToCommand(int x, int y) {
+		super(Driver.pd.commandFrame.dcp);
+		this.arguments.add(x + "");
+		this.arguments.add(y + "");
+		this.commandAsString = "drawTo";
+		this.numberOfArguments = 2;
 	}
 
 	@Override

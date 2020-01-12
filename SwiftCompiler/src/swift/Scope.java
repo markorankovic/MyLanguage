@@ -13,6 +13,8 @@ import structures.Variable;
 public class Scope {
 
 	Syntax[] syntax = {
+		new MoveToCommandSyntax(this),
+		new DrawToCommandSyntax(this),
 		new RectCommandSyntax(this),
 		new WhileBlockSyntax(this),
 		new VariableDeclarationSyntax(this),
