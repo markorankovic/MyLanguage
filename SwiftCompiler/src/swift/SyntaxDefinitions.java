@@ -160,7 +160,7 @@ class IfBlockSyntax extends Syntax {
 
 class FunctionDefinitionSyntax extends Syntax {
 	
-	static Pattern pattern = Pattern.compile("^\\s*fun[ ]+(\\w+)[ ]+((?:\\w+[ ]+)+)?\\{\\s*([^}]*)\\s*\\}");
+	static Pattern pattern = Pattern.compile("^\\s*fun[ ]+(\\w+)[ ]+((?:\\w+[ ]+)+)?\\{((?:(?:[^\\{\\}])|(?:\\{[^\\}]*\\}))*)\\}");
 	
 	FunctionDefinitionSyntax(Scope scope) {
 		this.scope = scope;
@@ -183,7 +183,7 @@ class FunctionDefinitionSyntax extends Syntax {
 
 class FunctionCallSyntax extends Syntax {
 	
-	static Pattern pattern = Pattern.compile("^\\s*do[ ]+(\\w+)[ ]+(.+)?");
+	static Pattern pattern = Pattern.compile("^\\s*do[ ]+(\\w+)(?:[ ]+(.+))?");
 	
 	FunctionCallSyntax(Scope scope) {
 		this.scope = scope;
@@ -194,14 +194,16 @@ class FunctionCallSyntax extends Syntax {
 		if (m.find()) {
 			String name = m.group(1);
 			String argList = m.group(2);
+			System.out.println(name);
+
 			String fun = scope.getVariable(name).getValue().toString();
 
 			Matcher mDef = FunctionDefinitionSyntax.pattern.matcher(fun);
 			if (!mDef.find()) throw new Exception("Function " + name + " not found");
 			String propList = mDef.group(2);
 			String block = mDef.group(3);
-			
-			System.out.println(fun);
+
+			System.out.println(block);
 
 			if (propList == null) {
 				if (argList != null) throw new Exception("Function " + name + " does not expect arguments");
