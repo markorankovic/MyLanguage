@@ -10,35 +10,6 @@ import primitivedrawing.Commands.PositionCommand;
 import primitivedrawing.Commands.RectCommand;
 import structures.Variable;
 
-public class SyntaxDefinitions {
-	
-	public static String start = "^\\s*";
-	public static String identifier = "([a-zA-Z]([a-zA-Z0-9])*)";
-	public static String type = identifier;
-	public static String integer = "(([1-9]([0-9]*))|0)";
-	public static String literal = "(" + integer + "|" + identifier + ")";
-	
-	public static String additionSymbol = "\\+";
-	public static String additionSyntax = literal + "( ?)" + additionSymbol + "( ?)" + literal;
-	public static String operAnd = "(" + literal + "|" + additionSyntax + ")";
-	
-	public static String lessThanSymbol = "\\<";
-	public static String greaterThanSymbol = "\\>";
-	public static String lessThan = literal + "( ?)" + lessThanSymbol + "( ?)" + literal;
-	public static String greaterThan = literal + "( ?)" + greaterThanSymbol + "( ?)" + literal;
-	public static String comparison = literal + "( ?)" + "(" + lessThan + "|" + greaterThan + ")" + "( ?)" + literal;
-	
-	public static String identifierAndTypeSyntax = identifier + ":( )?" + type;
-	public static String variableDeclarationSyntax = start + "var " + "(" + identifierAndTypeSyntax + "|" + identifier + ")" + "(( )?)=(( )?)" + "(" + literal + "|" + additionSyntax + ")";
-	public static String variableReassignmentSyntax = start + identifier + "( ?)" + "=" + "( ?)" + operAnd;
-	
-	public static String functionParametersSyntax = "\\(" + "(" + identifierAndTypeSyntax + "(" + ", " + identifierAndTypeSyntax + ")*" + ")*" + "\\)";
-	public static String functionDeclarationSyntax = "func " + identifier + "(( )?)" + functionParametersSyntax + "(" + "((( )?)->(( )?))" + type + ")?" + "(( )?)" + "\\{" + "(( |\n)*)" + "\\}";
-	
-	public static String statementSyntax = "(" + variableDeclarationSyntax + "|" + variableReassignmentSyntax + ")";
-	public static String whileLoopSyntax = start + "while\\s+(.+)\\s+\\{\\s*(.+)\\s*\\}";
-}
-
 abstract class Syntax {
 	
 	Scope scope;
@@ -187,6 +158,73 @@ class IfBlockSyntax extends Syntax {
 	}
 }
 
+class FunctionDefinitionSyntax extends Syntax {
+	
+	static Pattern pattern = Pattern.compile("^\\s*fun[ ]+(\\w+)[ ]+((?:\\w+[ ]+)+)?\\{\\s*([^}]*)\\s*\\}");
+	
+	FunctionDefinitionSyntax(Scope scope) {
+		this.scope = scope;
+	}
+
+	Matcher evaluate(String code) throws Exception {
+		Matcher m = pattern.matcher(code);
+		if (m.find()) {
+			String name = m.group(1);
+			String fun = m.group(0);
+			scope.map.put(name, new Variable(name, fun));
+			scope.result = null;
+			return m;
+		} else {
+			return null;
+		}
+	}
+	
+}
+
+class FunctionCallSyntax extends Syntax {
+	
+	static Pattern pattern = Pattern.compile("^\\s*do[ ]+(\\w+)[ ]+(.+)?");
+	
+	FunctionCallSyntax(Scope scope) {
+		this.scope = scope;
+	}
+
+	Matcher evaluate(String code) throws Exception {
+		Matcher m = pattern.matcher(code);
+		if (m.find()) {
+			String name = m.group(1);
+			String argList = m.group(2);
+			String fun = scope.getVariable(name).getValue().toString();
+
+			Matcher mDef = FunctionDefinitionSyntax.pattern.matcher(fun);
+			if (!mDef.find()) throw new Exception("Function " + name + " not found");
+			String propList = mDef.group(2);
+			String block = mDef.group(3);
+			
+			System.out.println(fun);
+
+			if (propList == null) {
+				if (argList != null) throw new Exception("Function " + name + " does not expect arguments");
+			} else {
+				String[] props = propList.split("[ ]+");
+				if (argList == null) throw new Exception("Function " + name + " expects arguments: " + propList);
+				String[] args = argList.split(",[ ]*");
+				if (props.length != args.length) throw new Exception("Function " + name + " expects " + props.length + " arguments");
+				for (int i = 0; i < props.length; i++) {
+					String prop = props[i];
+					String arg = scope.run(args[i]).toString();
+					scope.map.put(prop, new Variable(name, arg));
+				}
+			}
+			
+			scope.result = scope.run(block);
+			return m;
+		} else {
+			return null;
+		}
+	}
+	
+}
 
 class RectCommandSyntax extends Syntax {
 	
