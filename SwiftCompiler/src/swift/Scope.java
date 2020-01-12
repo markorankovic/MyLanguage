@@ -9,6 +9,19 @@ import primitivedrawing.Commands.CircleCommand;
 import primitivedrawing.Commands.ClearCommand;
 import primitivedrawing.Commands.RectCommand;
 import structures.Variable;
+import syntax.CircleCommandSyntax;
+import syntax.DrawToCommandSyntax;
+import syntax.FunctionCallSyntax;
+import syntax.FunctionDefinitionSyntax;
+import syntax.IfBlockSyntax;
+import syntax.LiteralValueSyntax;
+import syntax.MoveToCommandSyntax;
+import syntax.OperatorSyntax;
+import syntax.RectCommandSyntax;
+import syntax.Syntax;
+import syntax.VariableDeclarationSyntax;
+import syntax.VariableValueSyntax;
+import syntax.WhileBlockSyntax;
 
 public class Scope {
 
