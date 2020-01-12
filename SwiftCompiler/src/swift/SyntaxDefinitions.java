@@ -3,6 +3,8 @@ package swift;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import primitivedrawing.Commands.Command;
+import primitivedrawing.Commands.RectCommand;
 import structures.Variable;
 
 public class SyntaxDefinitions {
@@ -43,7 +45,7 @@ abstract class Syntax {
 
 class VariableDeclarationSyntax extends Syntax {
 	
-	static Pattern pattern = Pattern.compile("^\\s*(\\w+)\\s+=\\s+(.*)");
+	static Pattern pattern = Pattern.compile("^\\s*(\\w+)[ ]+=[ ]+(.*)");
 	
 	VariableDeclarationSyntax(Scope scope) {
 		this.scope = scope;
@@ -65,7 +67,7 @@ class VariableDeclarationSyntax extends Syntax {
 
 class VariableValueSyntax extends Syntax {
 	
-	static Pattern pattern = Pattern.compile("\\s*(\\b[a-zA-Z]\\w*)");
+	static Pattern pattern = Pattern.compile("^\\s*(\\b[a-zA-Z]\\w*)");
 	
 	VariableValueSyntax(Scope scope) {
 		this.scope = scope;
@@ -103,7 +105,7 @@ class LiteralValueSyntax extends Syntax {
 
 class OperatorSyntax extends Syntax {
 	
-	static Pattern pattern = Pattern.compile("^\\s*(.+)\\s+([\\+\\-\\*\\/\\<\\>])\\s+(.+)");
+	static Pattern pattern = Pattern.compile("^\\s*(.+)[ ]+([\\+\\-\\*\\/\\<\\>])[ ]+(.+)");
 	
 	OperatorSyntax(Scope scope) {
 		this.scope = scope;
@@ -133,7 +135,7 @@ class OperatorSyntax extends Syntax {
 
 class WhileBlockSyntax extends Syntax {
 	
-	static Pattern pattern = Pattern.compile("^\\s*while\\s+(.+)\\s+\\{\\s*(.+)\\s*\\}");
+	static Pattern pattern = Pattern.compile("^\\s*while[ ]+(.+)[ ]+\\{\\s*([^\\}]+)\\s*\\}");
 	
 	WhileBlockSyntax(Scope scope) {
 		this.scope = scope;
@@ -144,17 +146,45 @@ class WhileBlockSyntax extends Syntax {
 		if (m.find()) {
 			String condition = m.group(1);
 			String block = m.group(2);
+			System.out.println("while: " + block);
 			int i = 0;
 			while (i < 100 && scope.run(condition).toString() == "true") {
 				scope.result = scope.run(block);
 				i++;
-				System.out.println("i " + i + ": " + scope.result.toString());
 			}
 			return m;
 		} else {
 			return null;
 		}
 	}
+}
+
+class RectCommandSyntax extends Syntax {
+	
+	static Pattern pattern = Pattern.compile("^\\s*rect[ ]+(.+)[ ]*,[ ]*(.+)");
+	
+	RectCommandSyntax(Scope scope) {
+		this.scope = scope;
+	}
+
+	Matcher evaluate(String code) throws Exception {
+		Matcher m = pattern.matcher(code);
+		if (m.find()) {
+			String widthExpr = m.group(1);
+			String heightExpr = m.group(2);
+			int width = Integer.parseInt(scope.run(widthExpr).toString());
+			scope.result = null;
+			int height = Integer.parseInt(scope.run(heightExpr).toString());
+			scope.result = null;
+			System.out.println("DRAW: " + width + ", " + height);
+			Command command = new RectCommand(width, height);
+			command.execution();
+			return m;
+		} else {
+			return null;
+		}
+	}
+	
 }
 
 

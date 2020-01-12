@@ -13,11 +13,12 @@ import structures.Variable;
 public class Scope {
 
 	Syntax[] syntax = {
+		new RectCommandSyntax(this),
 		new WhileBlockSyntax(this),
 		new VariableDeclarationSyntax(this),
 		new OperatorSyntax(this),
 		new LiteralValueSyntax(this),
-		new VariableValueSyntax(this)
+		new VariableValueSyntax(this),
 	};
 
 	ArrayList<Variable> vs = new ArrayList<>();

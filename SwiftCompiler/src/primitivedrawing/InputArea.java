@@ -28,14 +28,15 @@ public class InputArea extends TextArea implements TextListener {
 	
 	@Override
 	public void textValueChanged(TextEvent e) {
+		((DrawingCommandProcessor) frame.dcp).dc.clear();
+		scope.result = null;
+		scope.map.clear();
 		try {
-			scope.map.clear();
-			((DrawingCommandProcessor) frame.dcp).dc.clear();
-			Object r = scope.run(getText());
-			this.frame.outputArea.setText(r.toString());
+			Object result = scope.run(getText());
+			this.frame.outputArea.setText(result.toString());
 		} catch (Exception err) {
 			this.frame.outputArea.setText(err.getMessage());
-			System.out.println(err.getMessage());
+			//System.out.println(err.getMessage());
 		}
 	}
 

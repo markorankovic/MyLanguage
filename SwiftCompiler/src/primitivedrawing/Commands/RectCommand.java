@@ -3,6 +3,7 @@ package primitivedrawing.Commands;
 import primitivedrawing.CommandProcessor;
 import primitivedrawing.DrawingCommandProcessor;
 import primitivedrawing.DrawingContext;
+import swift.Driver;
 
 /**
  * Command which draws a rectangle.
@@ -10,13 +11,15 @@ import primitivedrawing.DrawingContext;
  *
  */
 public class RectCommand extends DrawCommand {
-
-	public RectCommand(CommandProcessor processor) {
-		super(processor);
+		
+	public RectCommand(int width, int height) {
+		super(Driver.pd.commandFrame.dcp);
+		this.arguments.add(width + "");
+		this.arguments.add(height + "");
 		this.commandAsString = "rect";
 		this.numberOfArguments = 2;
 	}
-		
+
 	@Override
 	public void execution() {
 		DrawingContext dc = ((DrawingCommandProcessor) processor).dc;
