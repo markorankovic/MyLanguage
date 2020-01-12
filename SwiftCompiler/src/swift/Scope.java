@@ -13,6 +13,7 @@ import structures.Variable;
 public class Scope {
 
 	Syntax[] syntax = {
+		new WhileBlockSyntax(this),
 		new VariableDeclarationSyntax(this),
 		new OperatorSyntax(this),
 		new LiteralValueSyntax(this),

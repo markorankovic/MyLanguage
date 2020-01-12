@@ -103,7 +103,7 @@ class LiteralValueSyntax extends Syntax {
 
 class OperatorSyntax extends Syntax {
 	
-	static Pattern pattern = Pattern.compile("^\\s*(.+)\\s+\\+\\s+(.+)");
+	static Pattern pattern = Pattern.compile("^\\s*(.+)\\s+([\\+\\-\\*\\/\\<\\>])\\s+(.+)");
 	
 	OperatorSyntax(Scope scope) {
 		this.scope = scope;
@@ -113,8 +113,43 @@ class OperatorSyntax extends Syntax {
 		Matcher m = pattern.matcher(code);
 		if (m.find()) {
 			int lhs = Integer.parseInt(scope.run(m.group(1)).toString());
-			int rhs = Integer.parseInt(scope.run(m.group(2)).toString());
-			scope.result = lhs + rhs;
+			String op = m.group(2);
+			int rhs = Integer.parseInt(scope.run(m.group(3)).toString());
+			switch (op) {
+			case "+": scope.result = lhs + rhs; break;
+			case "-": scope.result = lhs - rhs; break;
+			case "*": scope.result = lhs * rhs; break;
+			case "/": scope.result = lhs / rhs; break;
+			case "<": scope.result = lhs < rhs; break;
+			case ">": scope.result = lhs > rhs; break;
+			default: throw new Exception("Unknown operator: " + op);
+			}
+			return m;
+		} else {
+			return null;
+		}
+	}
+}
+
+class WhileBlockSyntax extends Syntax {
+	
+	static Pattern pattern = Pattern.compile("^\\s*while\\s+(.+)\\s+\\{\\s*(.+)\\s*\\}");
+	
+	WhileBlockSyntax(Scope scope) {
+		this.scope = scope;
+	}
+
+	Matcher evaluate(String code) throws Exception {
+		Matcher m = pattern.matcher(code);
+		if (m.find()) {
+			String condition = m.group(1);
+			String block = m.group(2);
+			int i = 0;
+			while (i < 100 && scope.run(condition).toString() == "true") {
+				scope.result = scope.run(block);
+				i++;
+				System.out.println("i " + i + ": " + scope.result.toString());
+			}
 			return m;
 		} else {
 			return null;
