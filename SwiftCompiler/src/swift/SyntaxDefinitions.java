@@ -13,6 +13,8 @@ import structures.Variable;
 abstract class Syntax {
 	
 	Scope scope;
+	
+	static String block = "\\{((?:(?:[^\\{\\}])|(?:\\{[^\\}]*\\}))*)\\}";
 
 	abstract Matcher evaluate(String code) throws Exception;
 }
@@ -109,7 +111,7 @@ class OperatorSyntax extends Syntax {
 
 class WhileBlockSyntax extends Syntax {
 	
-	static Pattern pattern = Pattern.compile("^\\s*while[ ]+(.+)[ ]+\\{\\s*([^\\}]+)\\s*\\}");
+	static Pattern pattern = Pattern.compile("^\\s*while[ ]+(.+)[ ]+" + Syntax.block);
 	
 	WhileBlockSyntax(Scope scope) {
 		this.scope = scope;
@@ -134,7 +136,7 @@ class WhileBlockSyntax extends Syntax {
 
 class IfBlockSyntax extends Syntax {
 	
-	static Pattern pattern = Pattern.compile("^\\s*if[ ]+(.+)[ ]+\\{\\s*([^\\}]+)\\s*\\}(?:\\s*else[ ]+\\{\\s*([^\\}]+)\\s*\\})?");
+	static Pattern pattern = Pattern.compile("^\\s*if[ ]+(.+)[ ]+" + Syntax.block + "(?:\\s*else[ ]+" + Syntax.block + ")?");
 	
 	IfBlockSyntax(Scope scope) {
 		this.scope = scope;
@@ -160,7 +162,7 @@ class IfBlockSyntax extends Syntax {
 
 class FunctionDefinitionSyntax extends Syntax {
 	
-	static Pattern pattern = Pattern.compile("^\\s*fun[ ]+(\\w+)[ ]+((?:\\w+[ ]+)+)?\\{((?:(?:[^\\{\\}])|(?:\\{[^\\}]*\\}))*)\\}");
+	static Pattern pattern = Pattern.compile("^\\s*fun[ ]+(\\w+)[ ]+((?:\\w+[ ]+)+)?" + Syntax.block);
 	
 	FunctionDefinitionSyntax(Scope scope) {
 		this.scope = scope;
