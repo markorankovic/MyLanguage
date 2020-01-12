@@ -2,16 +2,21 @@ package structures;
 
 public class Variable {
 
-	private String value;
 	private String name;
+	private Object value;
 	
 	public Variable() { }
+	
+	public Variable(String name, Object value) {
+		this.name = name;
+		this.value = value;
+	}
 	
 	public void setValue(String value) {
 		this.value = value;
 	}
 	
-	public String getValue() {
+	public Object getValue() {
 		return value;
 	}
 	
@@ -24,7 +29,7 @@ public class Variable {
 	}
 	
 	public String toString() {
-		return value;
+		return value.toString();
 	}
 	
 }

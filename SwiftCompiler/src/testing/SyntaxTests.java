@@ -11,6 +11,8 @@ public class SyntaxTests {
 	public void whileTest() {
 		//String whileSyntax = "while\\s+(.+)\\s+\\{\\s*(.+)\\s*\\}";
 		Assert.assertTrue("while i < 3 { do something }".matches(SyntaxDefinitions.whileLoopSyntax));
+		String statement = "while i < 3 {\n  i = i + 1\n}";
+		Assert.assertTrue(statement.matches(SyntaxDefinitions.whileLoopSyntax));
 	}
 	
 	@Test

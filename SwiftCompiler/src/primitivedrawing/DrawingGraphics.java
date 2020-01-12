@@ -29,7 +29,6 @@ public class DrawingGraphics extends Canvas implements DrawingContext, FocusList
 	public DrawingGraphics() {
 		super();
 		this.setBackground(Color.WHITE);
-//		this.addFocusListener(this);
 	}
 		
 	 @Override
