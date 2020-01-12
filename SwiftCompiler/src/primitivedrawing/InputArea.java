@@ -23,7 +23,7 @@ public class InputArea extends TextArea implements TextListener {
 	
 	 @Override
 	 public Dimension getPreferredSize() {
-	      return new Dimension(500, 200);  
+	      return new Dimension(500, 300);  
 	 } 
 	
 	@Override

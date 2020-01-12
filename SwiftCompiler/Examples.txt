@@ -1,0 +1,150 @@
+var r = 10
+var i = 0
+while i < 5 {
+  i = i + 1
+  r = r + 10
+  circle r
+}
+-------
+
+i = 0
+while i < 3 {
+  i = i + 1
+}
+
+----------
+
+w = 50
+while w < 100 {
+  rect w w
+  w = w + 20
+}
+w
+
+---------
+
+w = 50
+p = 100
+while w < 200 {
+  move to p, p
+  rect w, w
+  w = w + 20
+  p = p - 10
+}
+
+--------
+
+w = 50
+p = 100
+while w < 200 {
+  if w < 200 {
+    move to p, p
+    rect w, w
+  }
+  w = w + 20
+  p = p - 10
+}
+
+---------
+
+move to 100, 100
+draw to 200, 200
+
+
+-------
+
+
+r = 50
+if r < 100 {
+  circle r
+} else {
+  rect r, r
+}
+
+------
+
+
+fun f x y {
+ rect x, y
+}
+do f 100, 100
+
+
+------
+
+fun f {
+  rect 100, 100
+}
+
+do f
+
+-------
+
+fun f {
+  w = 50
+  p = 100
+  while w < 200 {
+    move to p, p
+    rect w, w
+    w = w + 20
+    p = p - 10
+  }
+}
+do f
+
+
+-----
+
+i = 0
+r = 15
+x = 25
+y = 100
+while i < 10 {
+  cx = r * 3 * i + x
+  move to cx, y
+  circle r
+  move to r * 2 + cx, r + y
+  draw to r * 3 + cx, r + y
+  i = i + 1
+}
+
+
+------
+
+fun chain r, x, y {
+  i = 0
+  while i < 10 {
+    cx = r * 3 * i + x
+    move to cx, y
+    circle r
+    move to r * 2 + cx, r + y
+    draw to r * 3 + cx, r + y
+    i = i + 1
+  }
+}
+
+w = 25
+
+do chain 15, w, 100
+
+
+------
+
+fun chain r x y {
+  i = 0
+  while i < 10 {
+    cx = r * 3 * i + x
+    i = i + 1
+    move to cx, y
+    circle r
+    if i < 10 {
+      move to r * 2 + cx, r + y
+      draw to r * 3 + cx, r + y
+    }
+  }
+}
+
+w = 30
+do chain w / 2, w, 100
+move to w, 100
+rect w * 15 - 15, w

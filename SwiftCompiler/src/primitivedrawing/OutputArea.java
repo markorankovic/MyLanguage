@@ -19,7 +19,7 @@ public class OutputArea extends TextArea {
 	
 	 @Override
 	 public Dimension getPreferredSize() {
-	      return new Dimension(500, 100);  
+	      return new Dimension(500, 50);  
 	 } 
 	
 }

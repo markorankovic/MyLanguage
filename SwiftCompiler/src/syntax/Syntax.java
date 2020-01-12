@@ -7,7 +7,7 @@ public abstract class Syntax {
 	
 	public Scope scope;
 	
-	public static String block = "\\{((?:(?:[^\\{\\}])|(?:\\{[^\\}]*\\}))*)\\}";
+	public static String block = "\\{((?:(?:[^\\{\\}])|(?:\\{(?:(?:(?:[^\\{\\}])|(?:\\{[^\\}]*\\}))*)\\}))*)\\}";
 
 	public abstract Matcher evaluate(String code) throws Exception;
 }
