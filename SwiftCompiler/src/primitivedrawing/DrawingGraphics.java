@@ -39,7 +39,6 @@ public class DrawingGraphics extends Canvas implements DrawingContext, FocusList
 	@Override
 	public void paint(Graphics g) {
 		rootGraphic.drawTree(g); // Draws all the primitives created
-		this.repaint();
 	}
 		
 	@Override

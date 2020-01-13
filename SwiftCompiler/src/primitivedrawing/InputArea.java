@@ -33,6 +33,7 @@ public class InputArea extends TextArea implements TextListener {
 		scope.map.clear();
 		try {
 			Object result = scope.run(getText());
+			((DrawingGraphics)frame.dcp.dc).repaint();
 			this.frame.outputArea.setText(result.toString());
 		} catch (Exception err) {
 			this.frame.outputArea.setText(err.getMessage());
