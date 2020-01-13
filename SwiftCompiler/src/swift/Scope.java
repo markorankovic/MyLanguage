@@ -3,11 +3,6 @@ package swift;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import primitivedrawing.Commands.CircleCommand;
-import primitivedrawing.Commands.ClearCommand;
-import primitivedrawing.Commands.RectCommand;
 import structures.Variable;
 import syntax.CircleCommandSyntax;
 import syntax.DrawToCommandSyntax;
@@ -46,6 +41,14 @@ public class Scope {
 	
 	public Object result = null;
 	
+	
+	/* Attempts to run any input code. If the code consists of multiple executable code, 
+	 * this function calls itself such that all the code recursively is run.
+	 * 
+	 * @return Returns an Object as the evaluation of the code is ambiguous.
+	 * 
+	 * @param code	The code to be run.
+	 */
 	public Object run(String code) throws Exception {
 		
 		String trimmedCode = code.trim();
@@ -64,6 +67,12 @@ public class Scope {
 		throw new Exception("Could not compile: " + trimmedCode);
 	}
 	
+	/* Gets a Variable given the corresponding name.
+	 * 
+	 * @return Returns a Variable.
+	 * 
+	 * @param name	Name of the variable.
+	 */
 	public Variable getVariable(String name) {
 		return map.get(name);
 	}

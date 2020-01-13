@@ -11,10 +11,3 @@ public abstract class Syntax {
 
 	public abstract Matcher evaluate(String code) throws Exception;
 }
-
-
-
-
-
-
-

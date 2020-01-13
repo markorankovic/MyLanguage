@@ -2,11 +2,15 @@ package testing;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import structures.Variable;
 import swift.Scope;
 
 public class CodeTests {
+	
+	@Test
+	public void trimTest() {
+		String str = "  d d  ";
+		Assert.assertEquals(str.trim(), "d d");
+	}
 	
 	@Test
 	public void additionTest() {
@@ -36,7 +40,6 @@ public class CodeTests {
 	public void variableTest2() throws Exception {
 		Scope scope = new Scope();
 		scope.run("x = 7 + 20");
-		System.out.println(scope.getVariable("x"));
 		Assert.assertEquals(scope.getVariable("x").getValue(), 27);
 	}
 	
@@ -46,7 +49,6 @@ public class CodeTests {
 		String statement = "var x = 7 \n x";
 		try {
 			scope.run(statement);
-			//Assert.assertTrue(Integer.parseInt(scope.getVariable("x").getValue()) == 7);
 		} catch (Exception e) {
 			Assert.fail();
 		}
@@ -57,8 +59,6 @@ public class CodeTests {
 		Scope scope = new Scope();
 		String statement = "var x = 3 \n x = 7 \n x";
 		try {
-//			r = scope.run(statement);
-//			r == 7
 			int r = (int) scope.run(statement);
 			Assert.assertTrue(r == 7);
 		} catch (Exception e) {
@@ -69,7 +69,6 @@ public class CodeTests {
 	@Test
 	public void variableReassignmentTest() {
 		Scope scope = new Scope();
-
 		String statement = "var x = 5 \n x = 10";
 		try {
 			int r = (int) scope.run(statement);
@@ -96,7 +95,6 @@ public class CodeTests {
 		String statement = "var r = 1 + 1";
 		try {
 			int r = (int) scope.run(statement);
-			System.out.println(r);
 			Assert.assertTrue(r == 2);
 		} catch (Exception e) {
 			Assert.fail();
@@ -169,7 +167,6 @@ public class CodeTests {
 		try {
 			int r = (int) scope.run(statement);
 			Assert.assertTrue(r == 3);
-			//Assert.assertTrue(Integer.parseInt(scope.getVariable("i").getValue()) == 3);
 		} catch (Exception e) {
 			Assert.fail();
 		}
@@ -180,9 +177,8 @@ public class CodeTests {
 		Scope scope = new Scope();
 		String statement = "var i = 0 \n while i < 3 {\n  i = i + 1\n}";
 		try {
-			int r = (int) scope.run(statement);
-//			Assert.assertEquals(r, 3);
-			//Assert.assertEquals(Integer.parseInt(scope.getVariable("i").getValue()), 3);
+			scope.run(statement);
+			Assert.assertEquals(scope.getVariable("i").getValue(), 3);
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
 		}

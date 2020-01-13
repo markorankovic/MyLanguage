@@ -1,6 +1,5 @@
 package primitivedrawing.Commands;
 
-import primitivedrawing.CommandProcessor;
 import primitivedrawing.DrawingCommandProcessor;
 import primitivedrawing.DrawingContext;
 import swift.Driver;
