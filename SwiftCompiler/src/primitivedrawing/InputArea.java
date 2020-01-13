@@ -37,7 +37,6 @@ public class InputArea extends TextArea implements TextListener {
 			this.frame.outputArea.setText(result.toString());
 		} catch (Exception err) {
 			this.frame.outputArea.setText(err.getMessage());
-			//System.out.println(err.getMessage());
 		}
 	}
 

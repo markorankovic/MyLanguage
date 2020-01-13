@@ -1,10 +1,21 @@
-var r = 10
-var i = 0
+r = 10
+i = 0
 while i < 5 {
   i = i + 1
   r = r + 10
   circle r
 }
+
+-------
+
+r = 10
+i = 0
+while i < 5 {
+  i = i + 1
+  r = r + 10
+  circle r
+}
+
 -------
 
 i = 0
@@ -111,7 +122,7 @@ while i < 10 {
 
 ------
 
-fun chain r, x, y {
+fun chain r x y {
   i = 0
   while i < 10 {
     cx = r * 3 * i + x
@@ -130,21 +141,37 @@ do chain 15, w, 100
 
 ------
 
+
 fun chain r x y {
   i = 0
   while i < 10 {
     cx = r * 3 * i + x
-    i = i + 1
     move to cx, y
     circle r
-    if i < 10 {
-      move to r * 2 + cx, r + y
-      draw to r * 3 + cx, r + y
-    }
+    move to r * 2 + cx, r + y
+    draw to r * 3 + cx, r + y
+    i = i + 1
   }
 }
 
 w = 30
-do chain w / 2, w, 100
-move to w, 100
-rect w * 15 - 15, w
+do chain w / 2, 25, 100
+move to 25, 100
+rect w * 15, w
+
+---------
+
+Concentric circles
+
+fun concentricCircles dr x y n {
+  r = 0
+  i = 0
+  while i < n {
+    r = r + dr
+    move to x - r, y - r
+    circle r
+    i = i + 1
+  }
+}
+do concentricCircles 4, 200, 200, 50
+do concentricCircles 4, 400, 200, 50
