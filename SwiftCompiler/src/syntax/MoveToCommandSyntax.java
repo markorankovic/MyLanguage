@@ -7,6 +7,10 @@ import primitivedrawing.Commands.Command;
 import primitivedrawing.Commands.PositionCommand;
 import swift.Scope;
 
+/*
+ * Class which evaluates code for the move to command.
+ */
+
 public class MoveToCommandSyntax extends Syntax {
 	
 	public static Pattern pattern = Pattern.compile("^\\s*move to[ ]+(.+)[ ]*,[ ]*(.+)");

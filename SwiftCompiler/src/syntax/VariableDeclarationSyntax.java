@@ -5,6 +5,10 @@ import java.util.regex.Pattern;
 import structures.Variable;
 import swift.Scope;
 
+/*
+ * Class which evaluates code for the variable declaration.
+ */
+
 public class VariableDeclarationSyntax extends Syntax {
 	
 	public static Pattern pattern = Pattern.compile("^\\s*(\\w+)[ ]+=[ ]+(.*)");

@@ -6,6 +6,10 @@ import java.util.regex.Pattern;
 import structures.Variable;
 import swift.Scope;
 
+/*
+ * Class which evaluates code for the function definition.
+ */
+
 public class FunctionDefinitionSyntax extends Syntax {
 	
 	public static Pattern pattern = Pattern.compile("^\\s*fun[ ]+(\\w+)[ ]+((?:\\w+[ ]+)+)?" + Syntax.block);

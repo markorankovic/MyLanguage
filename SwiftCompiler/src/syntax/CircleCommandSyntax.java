@@ -7,6 +7,10 @@ import primitivedrawing.Commands.CircleCommand;
 import primitivedrawing.Commands.Command;
 import swift.Scope;
 
+/*
+ * Class which evaluates code for the circle command.
+ */
+
 public class CircleCommandSyntax extends Syntax {
 	
 	public static Pattern pattern = Pattern.compile("^\\s*circle[ ]+(.+)");

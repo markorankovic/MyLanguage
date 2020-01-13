@@ -5,6 +5,10 @@ import java.util.regex.Pattern;
 
 import swift.Scope;
 
+/*
+ * Class which evaluates code for the if & else statement.
+ */
+
 public class IfBlockSyntax extends Syntax {
 	
 	public static Pattern pattern = Pattern.compile("^\\s*if[ ]+(.+)[ ]+" + Syntax.block + "(?:\\s*else[ ]+" + Syntax.block + ")?");

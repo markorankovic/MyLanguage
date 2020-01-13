@@ -5,6 +5,10 @@ import java.util.regex.Pattern;
 
 import swift.Scope;
 
+/*
+ * Class which evaluates code for literals.
+ */
+
 public class LiteralValueSyntax extends Syntax {
 	
 	public static Pattern pattern = Pattern.compile("^\\s*((?:\\d+)|(?:\\\"[^\"]*\\\")|(?:true)|(?:false))");

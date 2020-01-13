@@ -5,6 +5,10 @@ import java.util.regex.Pattern;
 
 import swift.Scope;
 
+/*
+ * Class which evaluates code for the while loop.
+ */
+
 public class WhileBlockSyntax extends Syntax {
 	
 	public static Pattern pattern = Pattern.compile("^\\s*while[ ]+(.+)[ ]+" + Syntax.block);

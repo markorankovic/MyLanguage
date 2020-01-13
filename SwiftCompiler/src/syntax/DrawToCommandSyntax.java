@@ -7,6 +7,10 @@ import primitivedrawing.Commands.Command;
 import primitivedrawing.Commands.DrawToCommand;
 import swift.Scope;
 
+/*
+ * Class which evaluates code for the draw to command.
+ */
+
 public class DrawToCommandSyntax extends Syntax {
 	
 	public static Pattern pattern = Pattern.compile("^\\s*draw to[ ]+(.+)[ ]*,[ ]*(.+)");

@@ -5,6 +5,10 @@ import java.util.regex.Pattern;
 
 import swift.Scope;
 
+/*
+ * Class which evaluates code for the variable value.
+ */
+
 public class VariableValueSyntax extends Syntax {
 	
 	public static Pattern pattern = Pattern.compile("^\\s*(\\b[a-zA-Z]\\w*)");

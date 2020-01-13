@@ -7,6 +7,10 @@ import primitivedrawing.Commands.Command;
 import primitivedrawing.Commands.RectCommand;
 import swift.Scope;
 
+/*
+ * Class which evaluates code for the rect command.
+ */
+
 public class RectCommandSyntax extends Syntax {
 	
 	public static Pattern pattern = Pattern.compile("^\\s*rect[ ]+(.+)[ ]*,[ ]*(.+)");

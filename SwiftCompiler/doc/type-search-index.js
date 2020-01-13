@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"syntax","l":"Syntax"}]
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"testing","l":"Tests"}]

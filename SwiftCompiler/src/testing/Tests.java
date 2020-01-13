@@ -65,5 +65,16 @@ public class Tests {
 		String code = "i = 1 \n while i < 80 { i = i + 1 } \n i";
 		Assert.assertEquals(scope.run(code).toString(), "80");
 	}
+	
+	/*
+	 * Tests the if & else statement.
+	 */
+	
+	@Test
+	public void ifElseTest() throws Exception {
+		Scope scope = new Scope();
+		String code = "i = 80 \n if i < 50 { i = 50 } \n else { i = 100 }";
+		Assert.assertEquals(scope.run(code).toString(), "100");
+	}
 
 }

@@ -6,6 +6,10 @@ import java.util.regex.Pattern;
 import structures.Variable;
 import swift.Scope;
 
+/*
+ * Class which evaluates code for the function call.
+ */
+
 public class FunctionCallSyntax extends Syntax {
 	
 	public static Pattern pattern = Pattern.compile("^\\s*do[ ]+(\\w+)(?:[ ]+(.+))?");

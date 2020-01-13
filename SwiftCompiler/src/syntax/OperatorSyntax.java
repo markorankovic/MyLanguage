@@ -5,6 +5,10 @@ import java.util.regex.Pattern;
 
 import swift.Scope;
 
+/*
+ * Class which evaluates code for the operator.
+ */
+
 public class OperatorSyntax extends Syntax {
 	
 	public static Pattern pattern = Pattern.compile("^\\s*(.+)[ ]+([\\+\\-\\*\\/\\<\\>])[ ]+(.+)");
