@@ -3,6 +3,7 @@ package primitivedrawing.Commands;
 import primitivedrawing.CommandProcessor;
 import primitivedrawing.DrawingCommandProcessor;
 import primitivedrawing.DrawingContext;
+import swift.Driver;
 
 /**
  * Command for drawing a triangle.
@@ -11,11 +12,19 @@ import primitivedrawing.DrawingContext;
  */
 public class TriangleCommand extends DrawCommand {
 
-	public TriangleCommand(CommandProcessor processor) {
-		super(processor);
-		numberOfArguments = 3;
-		this.commandAsString = "triangle";
+	public TriangleCommand(int width, int height) {
+		super(Driver.pd.commandFrame.dcp);
+		this.arguments.add(width + "");
+		this.arguments.add(height + "");
+		this.commandAsString = "rect";
+		this.numberOfArguments = 3;
 	}
+	
+//	public TriangleCommand(CommandProcessor processor) {
+//		super(processor);
+//		numberOfArguments = 3;
+//		this.commandAsString = "triangle";
+//	}
 
 	@Override
 	public void execution() {

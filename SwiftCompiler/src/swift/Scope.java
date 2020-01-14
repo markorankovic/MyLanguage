@@ -14,6 +14,7 @@ import syntax.MoveToCommandSyntax;
 import syntax.OperatorSyntax;
 import syntax.RectCommandSyntax;
 import syntax.Syntax;
+import syntax.TriangleCommandSyntax;
 import syntax.VariableDeclarationSyntax;
 import syntax.VariableValueSyntax;
 import syntax.WhileBlockSyntax;
@@ -24,6 +25,7 @@ public class Scope {
 		new FunctionDefinitionSyntax(this),
 		new FunctionCallSyntax(this),
 		new CircleCommandSyntax(this),
+		new TriangleCommandSyntax(this),
 		new RectCommandSyntax(this),
 		new MoveToCommandSyntax(this),
 		new DrawToCommandSyntax(this),

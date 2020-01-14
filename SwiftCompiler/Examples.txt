@@ -1,10 +1,7 @@
-r = 10
-i = 0
-while i < 5 {
-  i = i + 1
-  r = r + 10
-  circle r
-}
+i = i + 1
+r = r + 10
+circle r
+
 
 -------
 
