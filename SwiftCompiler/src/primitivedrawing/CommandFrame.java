@@ -32,7 +32,7 @@ public class CommandFrame extends PrimitiveFrame {
 		add((DrawingGraphics)dcp.dc);
 		add(inputArea);
 		add(outputArea);
-		dcp.outputArea = outputArea;
+		dcp.inputArea = inputArea;
 		createMenuBar();
 		
         pack();
@@ -49,7 +49,7 @@ public class CommandFrame extends PrimitiveFrame {
         int returnValue = chooser.showOpenDialog( null ) ;
         if (returnValue == JFileChooser.APPROVE_OPTION ) {
         	File file = chooser.getSelectedFile();
-        	dcp.loadCommandsFromFile(file);
+        	//inputArea.setText(file.);
         }
 	}
 	
